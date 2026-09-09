@@ -1,0 +1,149 @@
+@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register - Nexora Digital Bank";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - Nexora Digital Bank</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+</head>
+
+<body>
+
+    <div class="auth-wrapper">
+        <!-- Ambient Glowing Elements -->
+        <div class="auth-glow-1"></div>
+        <div class="auth-glow-2"></div>
+
+        <!-- Centered Card Container -->
+        <div class="auth-card-container wide-card">
+
+            <div class="auth-brand-header">
+                <div class="brand-badge-logo">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#0052cc" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="#0052cc" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="#00d2ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="brand-title">NEXORA</span>
+                    <span class="brand-subtitle">BANK PORTAL</span>
+                </div>
+
+                <h2 class="auth-title">Create Account</h2>
+                <p class="auth-subtitle">Register for your Nexora Digital Bank account</p>
+            </div>
+
+            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+                <div class="row g-3">
+                    <!-- Full Name -->
+                    <div class="col-md-6">
+                        <div class="auth-field-group">
+                            <label asp-for="Input.FullName">Full Name</label>
+                            <div class="input-icon-wrapper">
+                                <i class="bi bi-person field-icon"></i>
+                                <input asp-for="Input.FullName" autocomplete="name" placeholder="John Doe" required />
+                            </div>
+                            <span asp-validation-for="Input.FullName" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="col-md-6">
+                        <div class="auth-field-group">
+                            <label asp-for="Input.PhoneNumber">Phone Number</label>
+                            <div class="input-icon-wrapper">
+                                <i class="bi bi-telephone field-icon"></i>
+                                <input asp-for="Input.PhoneNumber" autocomplete="tel" placeholder="+91 9876543210" required />
+                            </div>
+                            <span asp-validation-for="Input.PhoneNumber" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="col-12">
+                        <div class="auth-field-group">
+                            <label asp-for="Input.Email">Email Address</label>
+                            <div class="input-icon-wrapper">
+                                <i class="bi bi-envelope field-icon"></i>
+                                <input asp-for="Input.Email" autocomplete="username" placeholder="name@example.com" required />
+                            </div>
+                            <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <!-- Address -->
+                    <div class="col-12">
+                        <div class="auth-field-group">
+                            <label asp-for="Input.Address">Address</label>
+                            <div class="input-icon-wrapper">
+                                <i class="bi bi-geo-alt field-icon"></i>
+                                <input asp-for="Input.Address" placeholder="Street, City, Zip Code" required />
+                            </div>
+                            <span asp-validation-for="Input.Address" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="col-md-6">
+                        <div class="auth-field-group">
+                            <label asp-for="Input.Password">Password</label>
+                            <div class="input-icon-wrapper">
+                                <i class="bi bi-lock field-icon"></i>
+                                <input asp-for="Input.Password" autocomplete="new-password" placeholder="Create password" required />
+                            </div>
+                            <span asp-validation-for="Input.Password" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="col-md-6">
+                        <div class="auth-field-group">
+                            <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                            <div class="input-icon-wrapper">
+                                <i class="bi bi-lock-fill field-icon"></i>
+                                <input asp-for="Input.ConfirmPassword" autocomplete="new-password" placeholder="Confirm password" required />
+                            </div>
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger small"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enterprise Admin Approval Notice -->
+                <div class="auth-notice-banner">
+                    <div class="auth-notice-icon">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <div>
+                        <strong>Administrator Approval Required:</strong> Your new account requires verification by bank administrators before access is activated.
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button id="registerSubmit" type="submit" class="btn-auth-submit mt-2">
+                    <span>Create Nexora Account</span>
+                    <i class="bi bi-arrow-right"></i>
+                </button>
+
+                <!-- Footer Link -->
+                <div class="auth-footer-switcher">
+                    Already have an account?
+                    <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Sign In</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <partial name="_ValidationScriptsPartial" />
+</body>
+</html>

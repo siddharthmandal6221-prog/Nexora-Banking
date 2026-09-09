@@ -1,0 +1,337 @@
+@model OnlineBankingApplication.ViewModels.AdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="page-header">
+    <div>
+        <h1>
+            <i class="bi bi-speedometer2 me-2 text-cyan"></i>Admin Dashboard
+        </h1>
+        <p>Monitor and manage the Nexora Digital Banking Portal system.</p>
+    </div>
+</div>
+
+<!-- MAIN STATISTICS -->
+<div class="row g-4 mb-4">
+    <div class="col-xl-3 col-md-6">
+        <div class="dashboard-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon-wrapper bg-primary bg-opacity-10 text-primary">
+                    <i class="bi bi-people-fill fs-4"></i>
+                </div>
+                <div>
+                    <span class="text-secondary small fw-medium text-uppercase d-block">Total Customers</span>
+                    <h3 class="fw-bold mb-0 text-dark">@Model.TotalCustomers</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="dashboard-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon-wrapper bg-success bg-opacity-10 text-success">
+                    <i class="bi bi-bank fs-4"></i>
+                </div>
+                <div>
+                    <span class="text-secondary small fw-medium text-uppercase d-block">Bank Accounts</span>
+                    <h3 class="fw-bold mb-0 text-dark">@Model.TotalBankAccounts</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="dashboard-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon-wrapper bg-info bg-opacity-10 text-info">
+                    <i class="bi bi-arrow-left-right fs-4"></i>
+                </div>
+                <div>
+                    <span class="text-secondary small fw-medium text-uppercase d-block">Transactions</span>
+                    <h3 class="fw-bold mb-0 text-dark">@Model.TotalTransactions</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="dashboard-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon-wrapper bg-warning bg-opacity-10 text-warning">
+                    <i class="bi bi-card-checklist fs-4"></i>
+                </div>
+                <div>
+                    <span class="text-secondary small fw-medium text-uppercase d-block">Pending Cheque Requests</span>
+                    <h3 class="fw-bold mb-0 text-dark">@Model.PendingChequeRequests</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SECONDARY STATISTICS -->
+<div class="row g-4 mb-4">
+    <div class="col-xl-4 col-md-6">
+        <div class="dashboard-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon-wrapper bg-primary bg-opacity-10 text-primary">
+                    <i class="bi bi-currency-rupee fs-4"></i>
+                </div>
+                <div>
+                    <span class="text-secondary small fw-medium text-uppercase d-block">Successful Transaction Value</span>
+                    <h3 class="fw-bold mb-0 text-primary">₹@Model.TotalTransactionAmount.ToString("N2")</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6">
+        <div class="dashboard-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon-wrapper bg-info bg-opacity-10 text-info">
+                    <i class="bi bi-person-lines-fill fs-4"></i>
+                </div>
+                <div>
+                    <span class="text-secondary small fw-medium text-uppercase d-block">Beneficiaries</span>
+                    <h3 class="fw-bold mb-0 text-dark">@Model.TotalBeneficiaries</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6">
+        <div class="dashboard-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon-wrapper bg-success bg-opacity-10 text-success">
+                    <i class="bi bi-receipt fs-4"></i>
+                </div>
+                <div>
+                    <span class="text-secondary small fw-medium text-uppercase d-block">Successful Bill Payments</span>
+                    <h3 class="fw-bold mb-0 text-dark">@Model.TotalBillPayments</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- QUICK ACTIONS + RECENT TRANSACTIONS -->
+<div class="row g-4 mb-4">
+    <!-- QUICK ACTIONS -->
+    <div class="col-lg-4">
+        <div class="dashboard-card">
+            <h5 class="fw-bold text-dark mb-3">
+                <i class="bi bi-lightning-charge-fill me-2 text-warning"></i>Quick Actions
+            </h5>
+            <div class="d-flex flex-column gap-2">
+                <a asp-controller="Customer" asp-action="Index" class="btn btn-light text-start border d-flex align-items-center gap-3 p-3 rounded-3">
+                    <i class="bi bi-people-fill text-primary fs-4"></i>
+                    <div>
+                        <strong class="d-block text-dark">Manage Customers</strong>
+                        <small class="text-muted">View customer records</small>
+                    </div>
+                </a>
+
+                <a asp-controller="BankAccount" asp-action="Index" class="btn btn-light text-start border d-flex align-items-center gap-3 p-3 rounded-3">
+                    <i class="bi bi-bank text-success fs-4"></i>
+                    <div>
+                        <strong class="d-block text-dark">Bank Accounts</strong>
+                        <small class="text-muted">Manage customer accounts</small>
+                    </div>
+                </a>
+
+                <a asp-controller="Transaction" asp-action="Index" class="btn btn-light text-start border d-flex align-items-center gap-3 p-3 rounded-3">
+                    <i class="bi bi-arrow-left-right text-info fs-4"></i>
+                    <div>
+                        <strong class="d-block text-dark">Transactions</strong>
+                        <small class="text-muted">Monitor transactions</small>
+                    </div>
+                </a>
+
+                <a asp-controller="ChequeBookRequest" asp-action="Index" class="btn btn-light text-start border d-flex align-items-center gap-3 p-3 rounded-3">
+                    <i class="bi bi-book text-warning fs-4"></i>
+                    <div>
+                        <strong class="d-block text-dark">Cheque Requests</strong>
+                        <small class="text-muted">Review pending requests</small>
+                    </div>
+                </a>
+
+                <a asp-controller="BillPayment" asp-action="Index" class="btn btn-light text-start border d-flex align-items-center gap-3 p-3 rounded-3">
+                    <i class="bi bi-receipt text-danger fs-4"></i>
+                    <div>
+                        <strong class="d-block text-dark">Bill Payments</strong>
+                        <small class="text-muted">Monitor bill payments</small>
+                    </div>
+                </a>
+
+                <a asp-controller="AuditLog" asp-action="Index" class="btn btn-light text-start border d-flex align-items-center gap-3 p-3 rounded-3">
+                    <i class="bi bi-shield-shaded text-secondary fs-4"></i>
+                    <div>
+                        <strong class="d-block text-dark">Audit Logs</strong>
+                        <small class="text-muted">Review system activity</small>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- RECENT TRANSACTIONS -->
+    <div class="col-lg-8">
+        <div class="dashboard-card">
+            <h5 class="fw-bold text-dark mb-3">
+                <i class="bi bi-clock-history me-2 text-primary"></i>Recent Transactions
+            </h5>
+            @if (Model.RecentTransactions.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Type</th>
+                                <th>Account</th>
+                                <th>Date</th>
+                                <th class="text-end">Amount</th>
+                                <th class="text-end">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var transaction in Model.RecentTransactions)
+                            {
+                                <tr>
+                                    <td class="fw-semibold text-dark">@transaction.TransactionType</td>
+                                    <td><small class="text-muted">@transaction.FromBankAccount?.AccountNumber</small></td>
+                                    <td><small class="text-secondary">@transaction.TransactionDate.ToString("dd MMM yyyy, hh:mm tt")</small></td>
+                                    <td class="text-end fw-bold text-primary">₹@transaction.Amount.ToString("N2")</td>
+                                    <td class="text-end">
+                                        <span class="badge bg-success bg-opacity-10 text-success border border-success">
+                                            @transaction.Status
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-4 text-muted">
+                    No recent transactions recorded.
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- USER MANAGEMENT -->
+<div class="dashboard-card p-0 overflow-hidden mb-4">
+    <div class="p-4 border-bottom d-flex justify-content-between align-items-center bg-light">
+        <h5 class="fw-bold text-dark mb-0">
+            <i class="bi bi-person-gear me-2 text-primary"></i>User Management
+        </h5>
+        <span class="badge bg-primary px-3 py-2 rounded-pill">
+            @Model.Users.Count Users
+        </span>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th class="ps-4">User</th>
+                    <th>Email</th>
+                    <th>Full Name</th>
+                    <th>Status</th>
+                    <th class="pe-4 text-end">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model.Users)
+                {
+                    <tr>
+                        <td class="ps-4">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="rounded-circle bg-navy text-white fw-bold d-flex align-items-center justify-content-center" style="width:36px; height:36px; font-size: 13px;">
+                                    @(string.IsNullOrEmpty(user.FullName) ? "U" : user.FullName.Substring(0, 1).ToUpper())
+                                </div>
+                                <span class="fw-semibold text-dark">@user.UserName</span>
+                            </div>
+                        </td>
+                        <td>@user.Email</td>
+                        <td>@user.FullName</td>
+                        <td>
+                            @if (user.IsApproved)
+                            {
+                                <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-1">
+                                    Approved
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger bg-opacity-10 text-danger border border-danger px-3 py-1">
+                                    Not Approved
+                                </span>
+                            }
+                        </td>
+                        <td class="pe-4 text-end">
+                            @if (!user.IsApproved)
+                            {
+                                <form asp-action="Approve" method="post" class="d-inline">
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                    <button type="submit" class="btn btn-sm btn-success">
+                                        <i class="bi bi-check-circle-fill me-1"></i>Approve
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-action="Reject" method="post" class="d-inline">
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-x-circle-fill me-1"></i>Reject
+                                    </button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- RECENT AUDIT ACTIVITY -->
+<div class="dashboard-card">
+    <h5 class="fw-bold text-dark mb-3">
+        <i class="bi bi-journal-text me-2 text-secondary"></i>Recent Audit Activity
+    </h5>
+    @if (Model.RecentAuditLogs.Any())
+    {
+        <div class="list-group list-group-flush border-top border-bottom">
+            @foreach (var log in Model.RecentAuditLogs)
+            {
+                <div class="list-group-item d-flex justify-content-between align-items-center py-3">
+                    <div>
+                        <strong class="text-dark d-block">@log.Action</strong>
+                        <span class="text-muted small">@log.Description</span>
+                    </div>
+                    <small class="text-secondary fw-medium">@log.CreatedDate.ToString("dd MMM yyyy, hh:mm tt")</small>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-4 text-muted">
+            No audit activity available.
+        </div>
+    }
+</div>
+     </div>
+        }
+
+    </div>
+
+</div>

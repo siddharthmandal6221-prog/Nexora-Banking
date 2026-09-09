@@ -1,0 +1,66 @@
+@using Microsoft.AspNetCore.Identity
+@using OnlineBankingApplication.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    var userName = User.Identity?.Name ?? "User";
+
+    var firstLetter = !string.IsNullOrEmpty(userName)
+        ? userName.Substring(0, 1).ToUpper()
+        : "U";
+
+    <div class="logged-in-area d-flex align-items-center gap-3">
+
+        <div class="user-profile d-flex align-items-center gap-2">
+
+            <div class="user-avatar rounded-circle bg-cyan text-navy fw-bold d-flex align-items-center justify-content-center" style="width:36px; height:36px; font-size:14px; background:#00d2ff; color:#0a2540;">
+                @firstLetter
+            </div>
+
+            <div class="user-info d-none d-sm-block">
+                <span class="user-greeting text-white-50 d-block" style="font-size:10px; font-weight:700; letter-spacing:1px;">WELCOME</span>
+                <span class="user-email text-white fw-semibold" style="font-size:13px;">@userName</span>
+            </div>
+
+        </div>
+
+        <form asp-area="Identity"
+              asp-page="/Account/Logout"
+              asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"
+              method="post"
+              class="logout-form m-0">
+
+            <button type="submit"
+                    class="btn btn-sm btn-outline-light rounded-pill px-3 py-2 fw-semibold d-inline-flex align-items-center gap-1">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Logout</span>
+            </button>
+
+        </form>
+
+    </div>
+}
+else
+{
+    <div class="logged-out-area d-flex align-items-center gap-2">
+
+        <a asp-area="Identity"
+           asp-page="/Account/Login"
+           class="btn btn-sm btn-outline-light text-white rounded-pill px-3 py-2 fw-semibold d-inline-flex align-items-center gap-1">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span>Login</span>
+        </a>
+
+        <a asp-area="Identity"
+           asp-page="/Account/Register"
+           class="btn btn-sm btn-cyan rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-1 shadow-sm"
+           style="background-color:#00d2ff; color:#0a2540; border:none;">
+            <i class="bi bi-person-plus-fill"></i>
+            <span>Register</span>
+        </a>
+
+    </div>
+}

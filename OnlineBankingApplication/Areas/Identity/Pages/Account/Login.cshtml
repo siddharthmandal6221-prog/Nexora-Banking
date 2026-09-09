@@ -1,0 +1,115 @@
+@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Login - Nexora Digital Bank";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Nexora Digital Bank</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+</head>
+
+<body>
+
+    <div class="auth-wrapper">
+        <!-- Ambient Glowing Elements -->
+        <div class="auth-glow-1"></div>
+        <div class="auth-glow-2"></div>
+
+        <!-- Centered Card Container -->
+        <div class="auth-card-container">
+
+            <div class="auth-brand-header">
+                <div class="brand-badge-logo">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#0052cc" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="#0052cc" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="#00d2ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="brand-title">NEXORA</span>
+                    <span class="brand-subtitle">BANK PORTAL</span>
+                </div>
+
+                <h2 class="auth-title">Welcome Back</h2>
+                <p class="auth-subtitle">Sign in to access your digital banking account</p>
+            </div>
+
+            <form id="account" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+                <!-- Email -->
+                <div class="auth-field-group">
+                    <label asp-for="Input.Email">Email Address</label>
+                    <div class="input-icon-wrapper">
+                        <i class="bi bi-envelope field-icon"></i>
+                        <input asp-for="Input.Email" autocomplete="username" placeholder="name@example.com" required />
+                    </div>
+                    <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                </div>
+
+                <!-- Password -->
+                <div class="auth-field-group">
+                    <label asp-for="Input.Password">Password</label>
+                    <div class="input-icon-wrapper">
+                        <i class="bi bi-lock field-icon"></i>
+                        <input asp-for="Input.Password" id="loginPassword" autocomplete="current-password" placeholder="Enter your password" required />
+                        <button type="button" class="password-toggle-btn" onclick="togglePassword('loginPassword', this)" aria-label="Show password">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                    <span asp-validation-for="Input.Password" class="text-danger small"></span>
+                </div>
+
+                <!-- Remember & Forgot -->
+                <div class="auth-meta-row">
+                    <label class="d-flex align-items-center gap-2 m-0 cursor-pointer">
+                        <input asp-for="Input.RememberMe" class="form-check-input m-0" />
+                        <span>Remember me</span>
+                    </label>
+                    <a asp-page="./ForgotPassword">Forgot password?</a>
+                </div>
+
+                <!-- Submit Button -->
+                <button id="login-submit" type="submit" class="btn-auth-submit">
+                    <span>Sign In to Nexora</span>
+                    <i class="bi bi-arrow-right"></i>
+                </button>
+
+                <!-- Footer Link -->
+                <div class="auth-footer-switcher">
+                    New to Nexora Digital Bank?
+                    <a asp-page="./Register">Register an account</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword(inputId, button) {
+            const input = document.getElementById(inputId);
+            const icon = button.querySelector("i");
+
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("bi-eye");
+                icon.classList.add("bi-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("bi-eye-slash");
+                icon.classList.add("bi-eye");
+            }
+        }
+    </script>
+
+    <partial name="_ValidationScriptsPartial" />
+</body>
+</html>

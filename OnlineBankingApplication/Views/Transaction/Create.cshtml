@@ -1,0 +1,125 @@
+﻿@model OnlineBankingApplication.DTOs.TransactionDto
+
+@{
+    ViewData["Title"] = "Make Transaction";
+}
+
+<h1>Make Transaction</h1>
+
+<form asp-action="Create" method="post">
+
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group mb-3">
+        <label asp-for="FromBankAccountId">
+            From Account
+        </label>
+
+        <select asp-for="FromBankAccountId"
+                class="form-control">
+
+            <option value="">
+                -- Select Account --
+            </option>
+
+            @foreach (var account in ViewBag.BankAccounts)
+            {
+                <option value="@account.BankAccountId">
+                    @account.AccountNumber
+                    - Customer ID: @account.CustomerId
+                </option>
+            }
+
+        </select>
+
+        <span asp-validation-for="FromBankAccountId"
+              class="text-danger">
+        </span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="ToAccountNumber">
+            To Account / Beneficiary
+        </label>
+
+        <input asp-for="ToAccountNumber"
+               class="form-control"
+               placeholder="Enter destination account number" />
+
+        <span asp-validation-for="ToAccountNumber"
+              class="text-danger">
+        </span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Amount">
+            Amount
+        </label>
+
+        <input asp-for="Amount"
+               class="form-control"
+               type="number"
+               step="0.01"
+               min="1"
+               placeholder="Enter amount" />
+
+        <span asp-validation-for="Amount"
+              class="text-danger">
+        </span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="TransactionType">
+            Transaction Type
+        </label>
+
+        <select asp-for="TransactionType"
+                class="form-control">
+
+            <option value="">
+                -- Select Transaction Type --
+            </option>
+
+            <option value="Transfer">
+                Transfer
+            </option>
+
+            <option value="NEFT">
+                NEFT
+            </option>
+
+            <option value="IMPS">
+                IMPS
+            </option>
+
+            <option value="UPI">
+                UPI
+            </option>
+
+        </select>
+
+        <span asp-validation-for="TransactionType"
+              class="text-danger">
+        </span>
+    </div>
+
+    <button type="submit"
+            class="btn btn-primary">
+        Transfer Money
+    </button>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Back to Transactions
+    </a>
+
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,24 @@
+﻿@{
+    var title = ViewData["SummaryTitle"]?.ToString() ?? "";
+    var value = ViewData["SummaryValue"]?.ToString() ?? "";
+    var icon = ViewData["SummaryIcon"]?.ToString() ?? "bi bi-bar-chart";
+    var iconClass = ViewData["SummaryIconClass"]?.ToString() ?? "";
+}
+
+<div class="summary-card">
+
+    <div class="summary-icon @iconClass">
+        <i class="bi @icon"></i>
+    </div>
+
+    <div>
+        <span class="summary-card-title">
+            @title
+        </span>
+
+        <h2 class="summary-card-value">
+            @value
+        </h2>
+    </div>
+
+</div>

@@ -1,0 +1,636 @@
+﻿@model OnlineBankingApplication.DTOs.BillPaymentDto
+@{
+    ViewData["Title"] = "Make Bill Payment";
+}
+
+<div class="container-fluid px-0">
+
+    <!-- Header -->
+
+    <div class="mb-4">
+
+        <a asp-action="Index"
+           class="back-link">
+            <i class="bi bi-arrow-left me-2"></i>
+            Back to Bill Payments
+        </a>
+
+        <h1 class="page-title mt-3">
+            Make Bill Payment
+        </h1>
+
+        <p class="page-subtitle">
+            Pay your electricity, water, gas, mobile, internet and DTH bills securely.
+        </p>
+
+    </div>
+
+
+    <div class="row g-4">
+
+        <!-- Payment Form -->
+
+        <div class="col-lg-8">
+
+            <div class="card payment-card">
+
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="form-header mb-4">
+
+                        <div class="form-icon">
+                            <i class="bi bi-receipt"></i>
+                        </div>
+
+                        <div>
+                            <h4>Payment Information</h4>
+
+                            <p>
+                                Enter the details of the bill you want to pay.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <form asp-action="Create"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <div asp-validation-summary="All"
+                             class="validation-summary">
+                        </div>
+
+
+                        <!-- Bill Type -->
+
+                        <div class="mb-4">
+
+                            <label asp-for="BillType"
+                                   class="form-label">
+                                Bill Type
+                            </label>
+
+                            <select asp-for="BillType"
+                                    class="form-select">
+
+                                <option value="">
+                                    -- Select Bill Type --
+                                </option>
+
+                                <option value="Electricity">
+                                    Electricity
+                                </option>
+
+                                <option value="Water">
+                                    Water
+                                </option>
+
+                                <option value="Gas">
+                                    Gas
+                                </option>
+
+                                <option value="Mobile">
+                                    Mobile
+                                </option>
+
+                                <option value="Internet">
+                                    Internet
+                                </option>
+
+                                <option value="DTH">
+                                    DTH
+                                </option>
+
+                            </select>
+
+                            <span asp-validation-for="BillType"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Biller + Consumer -->
+
+                        <div class="row g-3 mb-4">
+
+                            <div class="col-md-6">
+
+                                <label asp-for="BillerName"
+                                       class="form-label">
+                                    Biller Name
+                                </label>
+
+                                <input asp-for="BillerName"
+                                       class="form-control"
+                                       placeholder="e.g. Electricity Board" />
+
+                                <span asp-validation-for="BillerName"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label asp-for="ConsumerNumber"
+                                       class="form-label">
+                                    Consumer Number
+                                </label>
+
+                                <input asp-for="ConsumerNumber"
+                                       class="form-control"
+                                       placeholder="Enter consumer number" />
+
+                                <span asp-validation-for="ConsumerNumber"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Amount -->
+
+                        <div class="mb-4">
+
+                            <label asp-for="Amount"
+                                   class="form-label">
+                                Payment Amount
+                            </label>
+
+                            <div class="amount-input">
+
+                                <span>₹</span>
+
+                                <input asp-for="Amount"
+                                       class="form-control"
+                                       type="number"
+                                       min="1"
+                                       step="0.01"
+                                       placeholder="0.00" />
+
+                            </div>
+
+                            <span asp-validation-for="Amount"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Bank Account -->
+
+                        <div class="mb-4">
+
+                            <label asp-for="BankAccountId"
+                                   class="form-label">
+                                Pay From Account
+                            </label>
+
+                            <select asp-for="BankAccountId"
+                                    class="form-select">
+
+                                <option value="">
+                                    -- Select Bank Account --
+                                </option>
+
+                                @foreach (var account in ViewBag.BankAccounts)
+                                {
+                                    <option value="@account.BankAccountId">
+
+                                        @account.AccountNumber
+
+                                        @if (account.Customer != null)
+                                        {
+                                            <text>
+                                                - @account.Customer.FullName
+                                            </text>
+                                        }
+
+                                        - Balance ₹@account.Balance.ToString("N2")
+
+                                    </option>
+                                }
+
+                            </select>
+
+                            <span asp-validation-for="BankAccountId"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Security Message -->
+
+                        <div class="secure-message">
+
+                            <i class="bi bi-shield-check"></i>
+
+                            <div>
+
+                                <strong>
+                                    Secure Payment
+                                </strong>
+
+                                <small>
+                                    Your payment is processed securely through your selected bank account.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Buttons -->
+
+                        <div class="form-actions">
+
+                            <a asp-action="Index"
+                               class="cancel-button">
+                                Cancel
+                            </a>
+
+                            <button type="submit"
+                                    class="pay-button">
+
+                                <i class="bi bi-lock me-2"></i>
+                                Pay Bill
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Side Information -->
+
+        <div class="col-lg-4">
+
+            <div class="info-card mb-4">
+
+                <div class="info-header">
+
+                    <div class="info-icon">
+                        <i class="bi bi-lightning-charge"></i>
+                    </div>
+
+                    <h5>Bill Categories</h5>
+
+                </div>
+
+
+                <div class="category-list">
+
+                    <div class="category-item">
+                        <i class="bi bi-lightning-charge"></i>
+                        <span>Electricity</span>
+                    </div>
+
+                    <div class="category-item">
+                        <i class="bi bi-droplet"></i>
+                        <span>Water</span>
+                    </div>
+
+                    <div class="category-item">
+                        <i class="bi bi-fire"></i>
+                        <span>Gas</span>
+                    </div>
+
+                    <div class="category-item">
+                        <i class="bi bi-phone"></i>
+                        <span>Mobile</span>
+                    </div>
+
+                    <div class="category-item">
+                        <i class="bi bi-wifi"></i>
+                        <span>Internet</span>
+                    </div>
+
+                    <div class="category-item">
+                        <i class="bi bi-tv"></i>
+                        <span>DTH</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="info-header">
+
+                    <div class="info-icon">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+
+                    <h5>Payment Safety</h5>
+
+                </div>
+
+                <ul class="safety-list">
+
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        Verify your consumer number before payment.
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        Make sure sufficient balance is available.
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        Successful payments are recorded automatically.
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    .back-link {
+        color: #7047e8;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+        .back-link:hover {
+            color: #5833c7;
+        }
+
+    .page-title {
+        font-size: 34px;
+        font-weight: 750;
+        color: #17213d;
+        margin-bottom: 5px;
+    }
+
+    .page-subtitle {
+        color: #77738a;
+        margin: 0;
+    }
+
+    .payment-card,
+    .info-card {
+        background: #ffffff;
+        border: 1px solid #e9e2ff;
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(90, 60, 150, 0.06);
+    }
+
+    .form-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding-bottom: 22px;
+        border-bottom: 1px solid #eeeaf7;
+    }
+
+    .form-icon,
+    .info-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 14px;
+        background: #f0e9ff;
+        color: #7047e8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 21px;
+    }
+
+    .form-header h4 {
+        margin: 0 0 4px;
+        color: #17213d;
+        font-weight: 700;
+    }
+
+    .form-header p {
+        margin: 0;
+        color: #77738a;
+        font-size: 13px;
+    }
+
+    .form-label {
+        font-size: 13px;
+        font-weight: 650;
+        color: #4e4a61;
+        margin-bottom: 8px;
+    }
+
+    .form-control,
+    .form-select {
+        min-height: 46px;
+        border-radius: 11px;
+        border: 1px solid #ddd8ef;
+        color: #29263c;
+    }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #7047e8;
+            box-shadow: 0 0 0 0.2rem rgba(112, 71, 232, 0.12);
+        }
+
+    .amount-input {
+        display: flex;
+        align-items: center;
+        border: 1px solid #ddd8ef;
+        border-radius: 11px;
+        overflow: hidden;
+    }
+
+        .amount-input > span {
+            padding-left: 15px;
+            color: #7047e8;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .amount-input .form-control {
+            border: none;
+            box-shadow: none;
+        }
+
+    .validation-summary {
+        color: #c0392b;
+        background: #fff4f4;
+        border-radius: 10px;
+        padding: 10px 14px;
+        margin-bottom: 20px;
+    }
+
+    .secure-message {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #faf9ff;
+        border: 1px solid #ece5ff;
+        border-radius: 12px;
+        padding: 14px;
+    }
+
+        .secure-message > i {
+            color: #7047e8;
+            font-size: 22px;
+        }
+
+        .secure-message strong {
+            display: block;
+            color: #29263c;
+            font-size: 13px;
+        }
+
+        .secure-message small {
+            color: #77738a;
+            font-size: 11px;
+        }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-top: 25px;
+    }
+
+    .cancel-button {
+        border: 1px solid #ddd8ef;
+        color: #625e73;
+        background: white;
+        text-decoration: none;
+        border-radius: 10px;
+        padding: 11px 20px;
+        font-weight: 600;
+    }
+
+        .cancel-button:hover {
+            background: #faf9ff;
+            color: #7047e8;
+        }
+
+    .pay-button {
+        border: none;
+        color: white;
+        background: linear-gradient(135deg, #7047e8, #8c65ee);
+        border-radius: 10px;
+        padding: 11px 24px;
+        font-weight: 650;
+        box-shadow: 0 7px 18px rgba(112, 71, 232, 0.18);
+    }
+
+        .pay-button:hover {
+            transform: translateY(-1px);
+        }
+
+    .info-card {
+        padding: 24px;
+    }
+
+    .info-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 22px;
+    }
+
+        .info-header h5 {
+            margin: 0;
+            color: #17213d;
+            font-weight: 700;
+        }
+
+    .category-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .category-item {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 11px;
+        background: #faf9ff;
+        border-radius: 10px;
+        color: #4d4960;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+        .category-item i {
+            color: #7047e8;
+        }
+
+    .safety-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .safety-list li {
+            display: flex;
+            gap: 10px;
+            color: #696579;
+            font-size: 12px;
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+            .safety-list li:last-child {
+                margin-bottom: 0;
+            }
+
+        .safety-list i {
+            color: #16834b;
+            margin-top: 2px;
+        }
+
+    @@media (max-width: 768px) {
+
+        .page-title {
+            font-size: 28px;
+        }
+
+        .form-actions {
+            flex-direction: column-reverse;
+        }
+
+        .cancel-button,
+        .pay-button {
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+</style>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

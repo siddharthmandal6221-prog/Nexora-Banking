@@ -1,0 +1,432 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="dashboard-page">
+
+    <!-- Header -->
+    <div class="dashboard-header d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1 class="fw-bold mb-1" style="color: var(--nexora-text-heading); font-size: 32px;">
+                Executive Dashboard
+            </h1>
+            <p class="text-muted m-0" style="font-size: 14px;">
+                Real-time overview of Nexora digital banking system operations.
+            </p>
+        </div>
+
+        <a asp-controller="BankAccount"
+           asp-action="Index"
+           class="dashboard-action">
+            <i class="bi bi-sliders me-1"></i> Manage Accounts
+        </a>
+
+    </div>
+
+
+    <!-- Main Dashboard Row 1 -->
+    <div class="row g-4 mb-4">
+
+        <!-- Balance Card Hero -->
+        <div class="col-lg-5">
+
+            <div class="balance-card">
+
+                <div class="balance-label">
+                    <i class="bi bi-shield-check text-info"></i>
+                    TOTAL BANK SYSTEM LIQUIDITY
+                </div>
+
+                <div class="balance-value">
+                    ₹ @(((decimal)ViewBag.TotalBalance).ToString("N2"))
+                </div>
+
+                <div class="balance-footer">
+
+                    <div>
+                        <div class="balance-info fw-semibold">
+                            Across all customer accounts
+                        </div>
+
+                        <div class="balance-info text-white-50">
+                            @ViewBag.TotalBankAccounts active account(s) registered
+                        </div>
+                    </div>
+
+                    <div class="balance-icon-box">
+                        <i class="bi bi-currency-rupee"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Total Customers Stat Tile -->
+        <div class="col-lg-3 col-md-6">
+
+            <div class="stat-card p-4">
+
+                <div class="stat-top">
+
+                    <div class="stat-title">
+                        Total Customers
+                    </div>
+
+                    <div class="stat-icon-badge">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+                    @ViewBag.TotalCustomers
+                </div>
+
+                <div class="mt-2 text-muted" style="font-size: 12px;">
+                    <i class="bi bi-check-circle-fill text-success me-1"></i> Active Profiles
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Bank Accounts Stat Tile -->
+        <div class="col-lg-4 col-md-6">
+
+            <div class="stat-card p-4">
+
+                <div class="stat-top">
+
+                    <div class="stat-title">
+                        Active Bank Accounts
+                    </div>
+
+                    <div class="stat-icon-badge" style="background: #e0e7ff; color: #4338ca;">
+                        <i class="bi bi-bank2"></i>
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+                    @ViewBag.TotalBankAccounts
+                </div>
+
+                <div class="mt-2 text-muted" style="font-size: 12px;">
+                    <i class="bi bi-shield-lock-fill text-primary me-1"></i> Verified & Audited
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Second Row Stats -->
+    <div class="row g-4 mb-4">
+
+        <!-- Transactions -->
+        <div class="col-lg-4 col-md-6">
+
+            <div class="stat-card p-4">
+
+                <div class="stat-top">
+
+                    <div class="stat-title">
+                        Total Transactions
+                    </div>
+
+                    <div class="stat-icon-badge" style="background: #f0fdf4; color: #16a34a;">
+                        <i class="bi bi-arrow-left-right"></i>
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+                    @ViewBag.TotalTransactions
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Bill Payments -->
+        <div class="col-lg-4 col-md-6">
+
+            <div class="stat-card p-4">
+
+                <div class="stat-top">
+
+                    <div class="stat-title">
+                        Bill Payments
+                    </div>
+
+                    <div class="stat-icon-badge" style="background: #fefce8; color: #ca8a04;">
+                        <i class="bi bi-receipt-cutoff"></i>
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+                    @ViewBag.TotalBillPayments
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Pending Requests -->
+        <div class="col-lg-4 col-md-6">
+
+            <div class="stat-card p-4">
+
+                <div class="stat-top">
+
+                    <div class="stat-title">
+                        Pending Cheque Requests
+                    </div>
+
+                    <div class="stat-icon-badge" style="background: #fff1f2; color: #e11d48;">
+                        <i class="bi bi-hourglass-split"></i>
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+                    @ViewBag.PendingChequeBookRequests
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Bottom Section: System Overview & Quick Actions -->
+    <div class="row g-4">
+
+        <!-- System Overview -->
+        <div class="col-lg-7">
+
+            <div class="section-card">
+
+                <div class="p-4 border-bottom">
+
+                    <h3 class="fw-bold fs-5 mb-1" style="color: var(--nexora-text-heading);">
+                        Banking Operations Overview
+                    </h3>
+
+                    <p class="text-muted m-0" style="font-size: 13px;">
+                        Current summary of the Nexora banking ecosystem.
+                    </p>
+
+                </div>
+
+
+                <div class="p-4">
+
+                    <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+
+                        <div class="d-flex align-items-center gap-3">
+
+                            <div class="stat-icon-badge" style="width: 38px; height: 38px; font-size: 16px;">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+
+                            <span class="fw-semibold text-dark">Total Registered Customers</span>
+
+                        </div>
+
+                        <div class="fw-bold fs-6">
+                            @ViewBag.TotalCustomers
+                        </div>
+
+                    </div>
+
+
+                    <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+
+                        <div class="d-flex align-items-center gap-3">
+
+                            <div class="stat-icon-badge" style="width: 38px; height: 38px; font-size: 16px; background: #e0e7ff; color: #4338ca;">
+                                <i class="bi bi-bank2"></i>
+                            </div>
+
+                            <span class="fw-semibold text-dark">Total Active Accounts</span>
+
+                        </div>
+
+                        <div class="fw-bold fs-6">
+                            @ViewBag.TotalBankAccounts
+                        </div>
+
+                    </div>
+
+
+                    <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+
+                        <div class="d-flex align-items-center gap-3">
+
+                            <div class="stat-icon-badge" style="width: 38px; height: 38px; font-size: 16px; background: #f0fdf4; color: #16a34a;">
+                                <i class="bi bi-currency-rupee"></i>
+                            </div>
+
+                            <span class="fw-semibold text-dark">System Total Liquidity</span>
+
+                        </div>
+
+                        <div class="fw-bold fs-6 text-success">
+                            ₹ @(((decimal)ViewBag.TotalBalance).ToString("N2"))
+                        </div>
+
+                    </div>
+
+
+                    <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+
+                        <div class="d-flex align-items-center gap-3">
+
+                            <div class="stat-icon-badge" style="width: 38px; height: 38px; font-size: 16px; background: #e0f2fe; color: #0284c7;">
+                                <i class="bi bi-arrow-left-right"></i>
+                            </div>
+
+                            <span class="fw-semibold text-dark">Executed Money Transfers</span>
+
+                        </div>
+
+                        <div class="fw-bold fs-6">
+                            @ViewBag.TotalTransactions
+                        </div>
+
+                    </div>
+
+
+                    <div class="d-flex justify-content-between align-items-center py-3">
+
+                        <div class="d-flex align-items-center gap-3">
+
+                            <div class="stat-icon-badge" style="width: 38px; height: 38px; font-size: 16px; background: #fff1f2; color: #e11d48;">
+                                <i class="bi bi-hourglass-split"></i>
+                            </div>
+
+                            <span class="fw-semibold text-dark">Pending Cheque Requests</span>
+
+                        </div>
+
+                        <div class="fw-bold fs-6 text-danger">
+                            @ViewBag.PendingChequeBookRequests
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Quick Actions -->
+        <div class="col-lg-5">
+
+            <div class="section-card">
+
+                <div class="p-4 border-bottom">
+
+                    <h3 class="fw-bold fs-5 mb-1" style="color: var(--nexora-text-heading);">
+                        Quick Operations
+                    </h3>
+
+                    <p class="text-muted m-0" style="font-size: 13px;">
+                        Frequently used administrative shortcuts.
+                    </p>
+
+                </div>
+
+
+                <div class="p-4">
+
+                    <a asp-controller="Customer"
+                       asp-action="Index"
+                       class="d-flex align-items-center gap-3 p-3 rounded-3 text-decoration-none text-dark mb-3 border"
+                       style="background: #fafafa; transition: all 0.2s ease;">
+
+                        <div class="stat-icon-badge" style="width: 40px; height: 40px; font-size: 18px;">
+                            <i class="bi bi-person-lines-fill"></i>
+                        </div>
+
+                        <div>
+                            <strong class="d-block text-dark" style="font-size: 14px;">Manage Customers</strong>
+                            <span class="text-muted" style="font-size: 12px;">View profiles and approval requests</span>
+                        </div>
+
+                    </a>
+
+
+                    <a asp-controller="BankAccount"
+                       asp-action="Index"
+                       class="d-flex align-items-center gap-3 p-3 rounded-3 text-decoration-none text-dark mb-3 border"
+                       style="background: #fafafa; transition: all 0.2s ease;">
+
+                        <div class="stat-icon-badge" style="width: 40px; height: 40px; font-size: 18px; background: #e0e7ff; color: #4338ca;">
+                            <i class="bi bi-bank2"></i>
+                        </div>
+
+                        <div>
+                            <strong class="d-block text-dark" style="font-size: 14px;">Bank Accounts</strong>
+                            <span class="text-muted" style="font-size: 12px;">Manage customer accounts & balances</span>
+                        </div>
+
+                    </a>
+
+
+                    <a asp-controller="Transaction"
+                       asp-action="Index"
+                       class="d-flex align-items-center gap-3 p-3 rounded-3 text-decoration-none text-dark mb-3 border"
+                       style="background: #fafafa; transition: all 0.2s ease;">
+
+                        <div class="stat-icon-badge" style="width: 40px; height: 40px; font-size: 18px; background: #f0fdf4; color: #16a34a;">
+                            <i class="bi bi-arrow-left-right"></i>
+                        </div>
+
+                        <div>
+                            <strong class="d-block text-dark" style="font-size: 14px;">Money Transfers</strong>
+                            <span class="text-muted" style="font-size: 12px;">Review transaction logs and audit trail</span>
+                        </div>
+
+                    </a>
+
+
+                    <a asp-controller="ChequeBookRequest"
+                       asp-action="Index"
+                       class="d-flex align-items-center gap-3 p-3 rounded-3 text-decoration-none text-dark border"
+                       style="background: #fafafa; transition: all 0.2s ease;">
+
+                        <div class="stat-icon-badge" style="width: 40px; height: 40px; font-size: 18px; background: #fff1f2; color: #e11d48;">
+                            <i class="bi bi-journal-check"></i>
+                        </div>
+
+                        <div>
+                            <strong class="d-block text-dark" style="font-size: 14px;">Cheque Book Requests</strong>
+                            <span class="text-muted" style="font-size: 12px;">Approve or reject customer requests</span>
+                        </div>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,105 @@
+﻿@model OnlineBankingApplication.DTOs.BeneficiaryDto
+
+@{
+    ViewData["Title"] = "Edit Beneficiary";
+}
+
+<h1>Edit Beneficiary</h1>
+
+<form asp-action="Edit"
+      asp-route-id="@Model.BeneficiaryId"
+      method="post">
+
+    @Html.AntiForgeryToken()
+
+    <input type="hidden"
+           asp-for="BeneficiaryId" />
+
+    <div asp-validation-summary="All"
+         class="text-danger">
+    </div>
+
+    <div class="form-group mb-3">
+
+        <label asp-for="BeneficiaryName"></label>
+
+        <input asp-for="BeneficiaryName"
+               class="form-control" />
+
+        <span asp-validation-for="BeneficiaryName"
+              class="text-danger">
+        </span>
+
+    </div>
+
+    <div class="form-group mb-3">
+
+        <label asp-for="AccountNumber"></label>
+
+        <input asp-for="AccountNumber"
+               class="form-control" />
+
+        <span asp-validation-for="AccountNumber"
+              class="text-danger">
+        </span>
+
+    </div>
+
+    <div class="form-group mb-3">
+
+        <label asp-for="BankName"></label>
+
+        <input asp-for="BankName"
+               class="form-control" />
+
+        <span asp-validation-for="BankName"
+              class="text-danger">
+        </span>
+
+    </div>
+
+    <div class="form-group mb-3">
+
+        <label asp-for="CustomerId">
+            Customer
+        </label>
+
+        <select asp-for="CustomerId"
+                class="form-control">
+
+            <option value="">
+                -- Select Customer --
+            </option>
+
+            @foreach (var customer in ViewBag.Customers)
+            {
+                <option value="@customer.CustomerId">
+                    @customer.FullName
+                </option>
+            }
+
+        </select>
+
+        <span asp-validation-for="CustomerId"
+              class="text-danger">
+        </span>
+
+    </div>
+
+    <button type="submit"
+            class="btn btn-primary">
+        Save Changes
+    </button>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Back to List
+    </a>
+
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

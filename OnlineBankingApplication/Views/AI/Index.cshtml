@@ -1,0 +1,244 @@
+@{
+    ViewData["Title"] = "AI Banking Assistant";
+}
+
+<div class="page-header">
+    <div>
+        <h1>
+            <i class="bi bi-robot me-2 text-cyan"></i>AI Banking Assistant
+        </h1>
+        <p>Ask questions about banking services and how to use the Nexora Digital Banking Portal.</p>
+    </div>
+</div>
+
+<div class="dashboard-card" style="max-width: 900px; margin: 0 auto;">
+    <div class="p-2">
+
+        <div id="chatContainer"
+             style="
+            height: 450px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: #f8fafc;
+            ">
+
+            <div style="
+                background: white;
+                padding: 16px;
+                border-radius: 12px;
+                border: 1px solid #e2e8f0;
+                margin-bottom: 15px;
+                max-width: 80%;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+                ">
+                <strong class="text-primary"><i class="bi bi-robot me-1"></i>AI Assistant</strong>
+                <p style="margin: 8px 0 0;" class="text-dark">
+                    Hello! I am your Nexora AI Banking Assistant.
+                    How can I help you today?
+                </p>
+            </div>
+
+        </div>
+
+        <form id="aiForm">
+
+            @Html.AntiForgeryToken()
+
+            <div class="input-group input-group-lg">
+
+                <input type="text"
+                       id="message"
+                       name="message"
+                       class="form-control"
+                       placeholder="Ask your banking question..."
+                       maxlength="1000"
+                       autocomplete="off"
+                       required />
+
+                <button type="submit"
+                        class="btn btn-yono-primary px-4"
+                        id="sendButton">
+                    <i class="bi bi-send-fill me-1"></i>Ask AI
+                </button>
+
+            </div>
+
+        </form>
+
+        <div class="mt-4 pt-2">
+            <strong class="text-dark d-block mb-2"><i class="bi bi-lightbulb me-1 text-warning"></i>Try asking:</strong>
+
+            <div class="d-flex flex-wrap gap-2">
+
+                <button type="button"
+                        class="btn btn-outline-secondary btn-sm suggestion">
+                    How can I transfer money?
+                </button>
+
+                <button type="button"
+                        class="btn btn-outline-secondary btn-sm suggestion">
+                    How do I request a cheque book?
+                </button>
+
+                <button type="button"
+                        class="btn btn-outline-secondary btn-sm suggestion">
+                    How can I manage my cards?
+                </button>
+
+                <button type="button"
+                        class="btn btn-outline-secondary btn-sm suggestion">
+                    What is a bank statement?
+                </button>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+        const form = document.getElementById("aiForm");
+        const messageInput = document.getElementById("message");
+        const chatContainer = document.getElementById("chatContainer");
+        const sendButton = document.getElementById("sendButton");
+
+        function addMessage(sender, message, isUser) {
+
+            const wrapper = document.createElement("div");
+
+            wrapper.style.background = isUser ? "#e8f1ff" : "white";
+            wrapper.style.padding = "15px";
+            wrapper.style.borderRadius = "10px";
+            wrapper.style.marginBottom = "15px";
+            wrapper.style.maxWidth = "80%";
+            wrapper.style.marginLeft = isUser ? "auto" : "0";
+
+            const senderElement =
+                document.createElement("strong");
+
+            senderElement.textContent = sender;
+
+            const messageElement =
+                document.createElement("p");
+
+            messageElement.style.margin = "8px 0 0";
+            messageElement.style.whiteSpace = "pre-wrap";
+            messageElement.textContent = message;
+
+            wrapper.appendChild(senderElement);
+            wrapper.appendChild(messageElement);
+
+            chatContainer.appendChild(wrapper);
+
+            chatContainer.scrollTop =
+                chatContainer.scrollHeight;
+        }
+
+        form.addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            const message =
+                messageInput.value.trim();
+
+            if (!message) {
+                return;
+            }
+
+            addMessage(
+                "You",
+                message,
+                true
+            );
+
+            messageInput.value = "";
+
+            sendButton.disabled = true;
+            sendButton.textContent = "Thinking...";
+
+            try {
+
+                const token =
+                    document.querySelector(
+                        'input[name="__RequestVerificationToken"]'
+                    ).value;
+
+                const formData =
+                    new FormData();
+
+                formData.append(
+                    "message",
+                    message
+                );
+
+                formData.append(
+                    "__RequestVerificationToken",
+                    token
+                );
+
+                const response =
+                    await fetch(
+                        '@Url.Action("Ask", "AI")',
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+                const data =
+                    await response.json();
+
+                addMessage(
+                    "AI Assistant",
+                    data.response,
+                    false
+                );
+
+            }
+            catch (error) {
+
+                addMessage(
+                    "AI Assistant",
+                    "Unable to connect to the AI service. Please try again.",
+                    false
+                );
+
+            }
+            finally {
+
+                sendButton.disabled = false;
+                sendButton.textContent = "Ask AI";
+
+                messageInput.focus();
+            }
+
+        });
+
+        document
+            .querySelectorAll(".suggestion")
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    function() {
+
+                        messageInput.value =
+                            this.textContent.trim();
+
+                        messageInput.focus();
+
+                    }
+                );
+
+            });
+
+    </script>
+
+}

@@ -1,0 +1,241 @@
+@model IEnumerable<OnlineBankingApplication.DTOs.CardDto>
+
+@{
+    ViewData["Title"] = "Cards";
+
+    var cards = Model?.ToList()
+        ?? new List<OnlineBankingApplication.DTOs.CardDto>();
+
+    var isAdmin = User.IsInRole("Admin");
+
+    var activeCards = cards.Count(c => c.IsActive);
+    var inactiveCards = cards.Count(c => !c.IsActive);
+}
+
+<div class="container-fluid px-0">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold mb-1" style="color: var(--nexora-text-heading); font-size: 30px;">
+                Cards
+            </h1>
+            <p class="text-muted m-0" style="font-size: 14px;">
+                Manage active debit and credit cards linked to your accounts.
+            </p>
+        </div>
+
+        @if (isAdmin)
+        {
+            <a asp-controller="Card"
+               asp-action="Create"
+               class="btn-primary">
+                <i class="bi bi-plus-circle me-1"></i> Issue Card
+            </a>
+        }
+    </div>
+
+    <!-- Summary Tiles -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-lg-4 col-md-6">
+            <div class="summary-box p-4 d-flex align-items-center gap-3">
+                <div class="stat-icon-badge" style="width: 48px; height: 48px; font-size: 20px;">
+                    <i class="bi bi-credit-card-2-front-fill"></i>
+                </div>
+
+                <div>
+                    <span class="text-muted fw-semibold d-block mb-1" style="font-size: 13px;">Total Cards</span>
+                    <h2 class="fw-bold fs-3 text-dark m-0">@cards.Count</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="summary-box p-4 d-flex align-items-center gap-3">
+                <div class="stat-icon-badge" style="width: 48px; height: 48px; font-size: 20px; background: #dcfce7; color: #15803d;">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+
+                <div>
+                    <span class="text-muted fw-semibold d-block mb-1" style="font-size: 13px;">Active Cards</span>
+                    <h2 class="fw-bold fs-3 text-success m-0">@activeCards</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="summary-box p-4 d-flex align-items-center gap-3">
+                <div class="stat-icon-badge" style="width: 48px; height: 48px; font-size: 20px; background: #f1f5f9; color: #64748b;">
+                    <i class="bi bi-pause-circle-fill"></i>
+                </div>
+
+                <div>
+                    <span class="text-muted fw-semibold d-block mb-1" style="font-size: 13px;">Inactive Cards</span>
+                    <h2 class="fw-bold fs-3 text-secondary m-0">@inactiveCards</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Cards Table Card -->
+    <div class="section-card">
+
+        <div class="p-4 border-bottom d-flex justify-content-between align-items-center">
+
+            <div>
+                <h5 class="fw-bold text-dark fs-6 mb-1">Card Registry</h5>
+                <p class="text-muted m-0" style="font-size: 13px;">View and manage active banking cards.</p>
+            </div>
+
+            <span class="badge bg-primary text-white fw-bold px-3 py-2" style="border-radius: 20px;">
+                @cards.Count @(cards.Count == 1 ? "Card" : "Cards")
+            </span>
+
+        </div>
+
+        @if (!cards.Any())
+        {
+            <div class="text-center py-5">
+
+                <div class="stat-icon-badge mx-auto mb-3" style="width: 56px; height: 56px; font-size: 24px;">
+                    <i class="bi bi-credit-card-2-front"></i>
+                </div>
+
+                <h5 class="fw-bold text-dark mb-1">No cards found</h5>
+
+                <p class="text-muted mb-3" style="font-size: 13px;">
+                    There are currently no cards issued.
+                </p>
+
+                @if (isAdmin)
+                {
+                    <a asp-controller="Card"
+                       asp-action="Create"
+                       class="btn-primary">
+                        <i class="bi bi-plus-circle me-1"></i> Issue Card
+                    </a>
+                }
+
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table align-middle mb-0">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Card Number</th>
+                            <th>Card Holder</th>
+                            <th>Card Type</th>
+                            <th>Bank Account</th>
+                            <th>Expiry</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var card in cards)
+                        {
+                            var statusClass = card.IsActive ? "badge-active" : "badge-rejected";
+
+                            <tr>
+
+                                <td>
+
+                                    <div class="d-flex align-items-center gap-3">
+
+                                        <div class="stat-icon-badge" style="width: 40px; height: 40px; font-size: 18px;">
+                                            <i class="bi bi-credit-card"></i>
+                                        </div>
+
+                                        <div>
+
+                                            <div class="fw-bold text-dark" style="font-size: 14px; letter-spacing: 0.5px;">
+                                                •••• •••• •••• @card.LastFourDigits
+                                            </div>
+
+                                            <span class="badge bg-warning text-dark fw-bold" style="font-size: 10px;">
+                                                @card.CardNetwork
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                                <td class="fw-bold text-dark">
+                                    @card.CardHolderName
+                                </td>
+
+                                <td>
+                                    <span class="badge bg-light text-dark border px-2 py-1">
+                                        @card.CardType
+                                    </span>
+                                </td>
+
+                                <td class="fw-semibold text-muted">
+                                    @card.BankAccountNumber
+                                </td>
+
+                                <td class="fw-bold text-dark">
+                                    @card.ExpiryMonth.ToString("00")/@card.ExpiryYear
+                                </td>
+
+                                <td>
+                                    <span class="badge-status @statusClass">
+                                        @(card.IsActive ? "Active" : "Inactive")
+                                    </span>
+                                </td>
+
+                                <td>
+
+                                    <div class="d-flex gap-2">
+
+                                        <a asp-action="Details"
+                                           asp-route-id="@card.CardId"
+                                           class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-eye"></i> Details
+                                        </a>
+
+                                        @if (isAdmin)
+                                        {
+                                            <a asp-action="Edit"
+                                               asp-route-id="@card.CardId"
+                                               class="btn btn-sm btn-secondary">
+                                                <i class="bi bi-pencil"></i> Edit
+                                            </a>
+
+                                            <a asp-action="Delete"
+                                               asp-route-id="@card.CardId"
+                                               class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        }
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+
+    </div>
+
+</div>

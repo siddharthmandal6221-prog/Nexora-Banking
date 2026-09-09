@@ -1,0 +1,527 @@
+@model OnlineBankingApplication.ViewModels.CustomerDashboardViewModel
+
+@{
+    ViewData["Title"] = "Customer Dashboard";
+
+    var customerName = Model.CustomerName ?? "Customer";
+
+    var currentHour = DateTime.Now.Hour;
+
+    var greeting =
+        currentHour < 12
+            ? "Good morning"
+            : currentHour < 17
+                ? "Good afternoon"
+                : "Good evening";
+
+    var totalBalance = Model.TotalBalance;
+    var accountCount = Model.AccountCount;
+
+    var activeCards = Model.Cards
+        .Where(c => c.IsActive)
+        .ToList();
+
+    var activeSubscriptions = Model.Subscriptions
+        .Where(s => s.Status == "Active")
+        .ToList();
+
+    var accountNumbers = Model.Accounts
+        .Select(a => a.AccountNumber)
+        .ToHashSet();
+
+    var maxMonthlyActivity =
+        Model.MonthlyActivity.Values.Any()
+            ? Model.MonthlyActivity.Values.Max()
+            : 0;
+
+    var lastFourMonths = Model.MonthlyActivity
+        .Skip(Math.Max(0, Model.MonthlyActivity.Count - 4))
+        .ToList();
+}
+
+<div class="customer-dashboard">
+
+    <!-- Dashboard Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <div class="text-muted fw-semibold mb-1" style="font-size: 12px; letter-spacing: 0.5px;">
+                DASHBOARD <i class="bi bi-chevron-right mx-1"></i> NEXORA PORTAL <i class="bi bi-chevron-right mx-1"></i> OVERVIEW
+            </div>
+
+            <h1 class="fw-bold mb-1" style="color: var(--nexora-text-heading); font-size: 32px;">
+                @greeting, @customerName <i class="bi bi-hand-thumbs-up-fill text-warning ms-1" style="font-size: 24px;"></i>
+            </h1>
+
+            <p class="text-muted m-0" style="font-size: 14px;">
+                Manage your money, bank accounts, cards, and money transfers in one place.
+            </p>
+        </div>
+
+        <div>
+
+            <a asp-controller="Transaction"
+               asp-action="Create"
+               class="btn-primary">
+                <i class="bi bi-arrow-left-right me-1"></i> Transfer Money
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- Main Dashboard Grid -->
+    <div class="row g-4 mb-4">
+
+        <!-- LEFT / MAIN CONTENT -->
+        <div class="col-lg-8">
+
+            <!-- Top Cards -->
+            <div class="row g-3 mb-4">
+
+                <!-- Balance Card -->
+                <div class="col-md-7">
+
+                    <div class="balance-card">
+
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-white-50 fw-semibold uppercase" style="font-size: 11px; letter-spacing: 1px;">TOTAL AVAILABLE BALANCE</span>
+
+                            <a asp-controller="BankAccount"
+                               asp-action="Index"
+                               class="text-info text-decoration-none fw-semibold" style="font-size: 12px;">
+                                View Accounts <i class="bi bi-chevron-right"></i>
+                            </a>
+                        </div>
+
+                        <div class="balance-value mb-3">
+                            ₹@string.Format("{0:N2}", totalBalance)
+                        </div>
+
+                        <div class="balance-footer">
+                            <span class="text-white-50" style="font-size: 13px;">
+                                Across @accountCount bank account@(accountCount == 1 ? "" : "s")
+                            </span>
+
+                            <div class="balance-icon-box">
+                                <i class="bi bi-wallet2"></i>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Accounts Card -->
+                <div class="col-md-5">
+
+                    <div class="stat-card p-4 h-100 d-flex flex-column justify-content-between">
+
+                        <div>
+                            <div class="stat-top">
+                                <div class="stat-title">
+                                    Bank Accounts
+                                </div>
+
+                                <div class="stat-icon-badge" style="background: #e0e7ff; color: #4338ca;">
+                                    <i class="bi bi-bank2"></i>
+                                </div>
+                            </div>
+
+                            <div class="stat-value mb-2">
+                                @accountCount
+                            </div>
+                        </div>
+
+                        <div class="text-muted fw-semibold" style="font-size: 12px;">
+                            <i class="bi bi-check-circle-fill text-success me-1"></i> @Model.ActiveAccountCount active account(s)
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Quick Transfer & Monthly Activity Overview -->
+            <div class="row g-3 mb-4">
+
+                <!-- Quick Send -->
+                <div class="col-md-6">
+
+                    <div class="section-card p-4 h-100">
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h3 class="fw-bold fs-6 m-0" style="color: var(--nexora-text-heading);">Quick Transfer</h3>
+                                <p class="text-muted m-0" style="font-size: 12px;">Instant money transfer</p>
+                            </div>
+
+                            <i class="bi bi-lightning-charge-fill text-warning fs-4"></i>
+                        </div>
+
+                        <div class="p-3 rounded-3 mb-3" style="background: #f8fafc; border: 1px solid #e2e8f0;">
+
+                            <div class="text-muted fw-semibold mb-2" style="font-size: 11px; text-transform: uppercase;">
+                                Transfer to beneficiary
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <span class="fw-bold text-dark fs-6">Instant Transfer</span>
+
+                                <a asp-controller="Transaction"
+                                   asp-action="Create"
+                                   class="btn btn-sm btn-primary">
+                                    <i class="bi bi-arrow-right-short fs-5"></i> Transfer
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                        <div>
+
+                            <span class="text-muted fw-semibold d-block mb-2" style="font-size: 11px; text-transform: uppercase;">Recent Beneficiaries</span>
+
+                            <div class="d-flex align-items-center gap-2">
+
+                                @if (Model.Beneficiaries.Any())
+                                {
+                                    foreach (var beneficiary in Model.Beneficiaries.Take(4))
+                                    {
+                                        var initial =
+                                            string.IsNullOrWhiteSpace(beneficiary.BeneficiaryName)
+                                                ? "?"
+                                                : beneficiary.BeneficiaryName
+                                                    .Substring(0, 1)
+                                                    .ToUpper();
+
+                                        <div class="user-avatar"
+                                             style="width: 38px; height: 38px; font-size: 14px; background: #e0f2fe; color: #0284c7;"
+                                             title="@beneficiary.BeneficiaryName">
+                                            @initial
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="text-muted" style="font-size: 12px;">No saved beneficiaries yet</span>
+                                }
+
+                                <a asp-controller="Beneficiary"
+                                   asp-action="Create"
+                                   class="user-avatar text-decoration-none ms-auto"
+                                   style="width: 38px; height: 38px; font-size: 16px; background: #f1f5f9; color: var(--nexora-blue-primary); border: 1.5px dashed var(--nexora-blue-primary);">
+                                    <i class="bi bi-plus"></i>
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Monthly Overview -->
+                <div class="col-md-6">
+
+                    <div class="section-card p-4 h-100">
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+
+                            <div>
+                                <h3 class="fw-bold fs-6 m-0" style="color: var(--nexora-text-heading);">Monthly Activity</h3>
+                                <p class="text-muted m-0" style="font-size: 12px;">Transaction volume</p>
+                            </div>
+
+                            <i class="bi bi-bar-chart-line-fill text-primary fs-4"></i>
+
+                        </div>
+
+                        <div class="d-flex align-items-end justify-content-between pt-3" style="height: 120px;">
+
+                            @if (lastFourMonths.Any())
+                            {
+                                foreach (var month in lastFourMonths)
+                                {
+                                    var percentage =
+                                        maxMonthlyActivity > 0
+                                            ? (double)(month.Value / maxMonthlyActivity) * 100
+                                            : 10;
+
+                                    percentage = Math.Max(10, Math.Min(100, percentage));
+
+                                    <div class="d-flex flex-column align-items-center gap-2 flex-1" style="flex: 1;">
+
+                                        <div class="rounded-top"
+                                             style="width: 24px; height: @(percentage)%; background: linear-gradient(180deg, #0284c7 0%, #0052cc 100%); transition: height 0.5s ease;">
+                                        </div>
+
+                                        <span class="text-muted fw-semibold" style="font-size: 11px;">
+                                            @month.Key
+                                        </span>
+
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="w-100 text-center text-muted" style="font-size: 12px;">
+                                    No transaction activity logged
+                                </div>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Recent Transactions Table Card -->
+            <div class="section-card p-4">
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+
+                    <div>
+                        <h2 class="fw-bold fs-5 m-0" style="color: var(--nexora-text-heading);">
+                            Recent Activity
+                            <span class="badge rounded-pill bg-primary ms-2 fs-6">
+                                @Model.TransactionCount
+                            </span>
+                        </h2>
+
+                        <p class="text-muted m-0" style="font-size: 12px;">
+                            Your latest account activity
+                        </p>
+                    </div>
+
+                    <a asp-controller="Transaction"
+                       asp-action="Index"
+                       class="text-primary text-decoration-none fw-bold" style="font-size: 13px;">
+                        View all <i class="bi bi-arrow-right"></i>
+                    </a>
+
+                </div>
+
+
+                <div class="d-flex flex-column gap-2">
+
+                    @if (Model.RecentTransactions.Any())
+                    {
+                        foreach (var transaction in Model.RecentTransactions)
+                        {
+                            var isIncoming = accountNumbers.Contains(transaction.ToAccountNumber);
+
+                            <div class="d-flex align-items-center justify-content-between p-3 rounded-3" style="background: #f8fafc; border: 1px solid #e2e8f0;">
+
+                                <div class="d-flex align-items-center gap-3">
+
+                                    <div class="stat-icon-badge" style="width: 40px; height: 40px; font-size: 18px; background: @(isIncoming ? "#dcfce7" : "#fee2e2"); color: @(isIncoming ? "#15803d" : "#b91c1c");">
+                                        <i class="bi @(isIncoming ? "bi-arrow-down-left" : "bi-arrow-up-right")"></i>
+                                    </div>
+
+                                    <div>
+
+                                        <strong class="d-block text-dark" style="font-size: 14px;">
+                                            @transaction.TransactionType
+                                        </strong>
+
+                                        <small class="text-muted" style="font-size: 11px;">
+                                            <i class="bi bi-clock me-1"></i>@transaction.TransactionDate.ToString("dd MMM yyyy, hh:mm tt")
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="fw-bold fs-6 @(isIncoming ? "text-success" : "text-dark")">
+                                    @(isIncoming ? "+" : "-") ₹@string.Format("{0:N2}", transaction.Amount)
+                                </div>
+
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center py-4 text-muted" style="font-size: 13px;">
+                            <i class="bi bi-inbox fs-3 text-muted d-block mb-1"></i>
+                            No recent transactions found.
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT SIDEBAR: CARDS & SUBSCRIPTIONS -->
+        <div class="col-lg-4">
+
+            <!-- Active Card Widget -->
+            <div class="section-card p-4 mb-4">
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+
+                    <div>
+                        <h3 class="fw-bold fs-6 m-0" style="color: var(--nexora-text-heading);">My Banking Cards</h3>
+                        <p class="text-muted m-0" style="font-size: 12px;">@activeCards.Count active card(s)</p>
+                    </div>
+
+                    <a asp-controller="Card" asp-action="Index" class="text-primary text-decoration-none fw-semibold" style="font-size: 12px;">
+                        Manage <i class="bi bi-chevron-right"></i>
+                    </a>
+
+                </div>
+
+
+                @if (activeCards.Any())
+                {
+                    var primaryCard = activeCards.First();
+
+                    <div class="balance-card p-4 mb-3" style="background: linear-gradient(135deg, #07172b 0%, #0d2847 50%, #1e3a8a 100%);">
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="fw-bold text-white tracking-wide" style="font-size: 14px;">NEXORA BANK</span>
+                            <span class="badge bg-warning text-dark fw-bold" style="font-size: 10px;">@primaryCard.CardNetwork</span>
+                        </div>
+
+                        <div class="mb-4">
+                            <i class="bi bi-cpu-fill text-warning fs-3 me-2"></i>
+                            <i class="bi bi-wifi text-white-50 fs-4"></i>
+                        </div>
+
+                        <div class="fw-bold fs-5 text-white tracking-widest mb-4">
+                            •••• •••• •••• @primaryCard.LastFourDigits
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-end">
+
+                            <div>
+                                <small class="text-white-50 d-block" style="font-size: 9px; text-transform: uppercase;">Card Holder</small>
+                                <strong class="text-white" style="font-size: 12px;">@primaryCard.CardHolderName</strong>
+                            </div>
+
+                            <div>
+                                <small class="text-white-50 d-block" style="font-size: 9px; text-transform: uppercase;">Expires</small>
+                                <strong class="text-white" style="font-size: 12px;">@primaryCard.ExpiryMonth.ToString("00")/@primaryCard.ExpiryYear.ToString().Substring(2)</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+                else
+                {
+                    <div class="p-3 rounded-3 text-center text-muted mb-3" style="background: #f8fafc; border: 1px dashed #cbd5e1;">
+                        <i class="bi bi-credit-card-2-front fs-2 text-muted d-block mb-1"></i>
+                        No active debit or credit cards linked.
+                    </div>
+                }
+
+            </div>
+
+
+            <!-- Active Subscriptions -->
+            <div class="section-card p-4 mb-4">
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+
+                    <div>
+                        <h3 class="fw-bold fs-6 m-0" style="color: var(--nexora-text-heading);">Subscriptions</h3>
+                        <p class="text-muted m-0" style="font-size: 12px;">@activeSubscriptions.Count active recurring</p>
+                    </div>
+
+                    <a asp-controller="Subscription" asp-action="Index" class="text-primary text-decoration-none fw-semibold" style="font-size: 12px;">
+                        Manage <i class="bi bi-chevron-right"></i>
+                    </a>
+
+                </div>
+
+
+                <div class="d-flex flex-column gap-2">
+
+                    @if (activeSubscriptions.Any())
+                    {
+                        foreach (var subscription in activeSubscriptions.Take(4))
+                        {
+                            var subscriptionInitial =
+                                string.IsNullOrWhiteSpace(subscription.MerchantName)
+                                    ? "?"
+                                    : subscription.MerchantName
+                                        .Substring(0, 1)
+                                        .ToUpper();
+
+                            <div class="d-flex align-items-center justify-content-between p-2 rounded-3" style="background: #f8fafc; border: 1px solid #e2e8f0;">
+
+                                <div class="d-flex align-items-center gap-2">
+
+                                    <div class="user-avatar" style="width: 36px; height: 36px; font-size: 13px; background: #e0f2fe; color: #0284c7;">
+                                        @subscriptionInitial
+                                    </div>
+
+                                    <div>
+                                        <strong class="d-block text-dark" style="font-size: 13px;">@subscription.MerchantName</strong>
+                                        <small class="text-muted" style="font-size: 11px;">@subscription.BillingCycle</small>
+                                    </div>
+
+                                </div>
+
+                                <strong class="text-dark" style="font-size: 13px;">₹@string.Format("{0:N0}", subscription.Amount)</strong>
+
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center py-3 text-muted" style="font-size: 12px;">
+                            No active subscriptions.
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+
+            <!-- Quick Shortcuts Card -->
+            <div class="section-card p-4">
+
+                <h3 class="fw-bold fs-6 mb-3" style="color: var(--nexora-text-heading);">Banking Shortcuts</h3>
+
+                <div class="d-flex flex-column gap-2">
+
+                    <a asp-controller="BankAccount" asp-action="Index" class="d-flex justify-content-between align-items-center p-3 rounded-3 text-decoration-none text-dark border" style="background: #ffffff;">
+                        <span class="fw-semibold" style="font-size: 13px;"><i class="bi bi-bank2 text-primary me-2"></i> My Accounts</span>
+                        <i class="bi bi-chevron-right text-muted"></i>
+                    </a>
+
+                    <a asp-controller="Beneficiary" asp-action="Index" class="d-flex justify-content-between align-items-center p-3 rounded-3 text-decoration-none text-dark border" style="background: #ffffff;">
+                        <span class="fw-semibold" style="font-size: 13px;"><i class="bi bi-person-lines-fill text-primary me-2"></i> Beneficiaries</span>
+                        <i class="bi bi-chevron-right text-muted"></i>
+                    </a>
+
+                    <a asp-controller="BillPayment" asp-action="Index" class="d-flex justify-content-between align-items-center p-3 rounded-3 text-decoration-none text-dark border" style="background: #ffffff;">
+                        <span class="fw-semibold" style="font-size: 13px;"><i class="bi bi-receipt-cutoff text-primary me-2"></i> Pay Bills</span>
+                        <i class="bi bi-chevron-right text-muted"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

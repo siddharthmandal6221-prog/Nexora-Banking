@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <title>
+        @ViewData["Title"] - Nexora Digital Bank
+    </title>
+
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+
+    <!-- Main CSS -->
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+
+    <!-- Generated CSS -->
+    <link rel="stylesheet"
+          href="~/OnlineBankingApplication.styles.css"
+          asp-append-version="true" />
+
+</head>
+
+
+<body>
+
+    <div class="banking-app">
+
+
+        <!-- =========================================================
+             TOP NAVBAR (NEXORA YONO BRANDING)
+             ========================================================= -->
+
+        <header class="top-navbar">
+
+            <div class="top-navbar-left">
+
+
+                <!-- Mobile Menu -->
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <button class="mobile-menu-button"
+                            type="button"
+                            onclick="toggleSidebar()">
+
+                        <i class="bi bi-list fs-3"></i>
+
+                    </button>
+                }
+
+
+                <!-- =================================================
+                     LOGO
+                     ================================================= -->
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+
+                    @if (User.IsInRole("Admin"))
+                    {
+
+                        <a class="banking-logo"
+                           asp-area=""
+                           asp-controller="Dashboard"
+                           asp-action="Index">
+
+                            <div class="logo-icon-box">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#00D2FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2 17L12 22L22 17" stroke="#00D2FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2 12L12 17L22 12" stroke="#FFB703" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+
+                            <div class="logo-text-wrapper">
+                                <span class="logo-brand">NEXORA</span>
+                                <span class="logo-tagline">YONO PORTAL</span>
+                            </div>
+
+                        </a>
+
+                    }
+                    else
+                    {
+
+                        <a class="banking-logo"
+                           asp-area=""
+                           asp-controller="CustomerDashboard"
+                           asp-action="Index">
+
+                            <div class="logo-icon-box">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#00D2FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2 17L12 22L22 17" stroke="#00D2FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2 12L12 17L22 12" stroke="#FFB703" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+
+                            <div class="logo-text-wrapper">
+                                <span class="logo-brand">NEXORA</span>
+                                <span class="logo-tagline">YONO PORTAL</span>
+                            </div>
+
+                        </a>
+
+                    }
+
+                }
+                else
+                {
+
+                    <a class="banking-logo"
+                       asp-area=""
+                       asp-controller="Home"
+                       asp-action="Index">
+
+                        <div class="logo-icon-box">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#00D2FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M2 17L12 22L22 17" stroke="#00D2FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M2 12L12 17L22 12" stroke="#FFB703" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+
+                        <div class="logo-text-wrapper">
+                            <span class="logo-brand">NEXORA</span>
+                            <span class="logo-tagline">YONO PORTAL</span>
+                        </div>
+
+                    </a>
+
+                }
+
+            </div>
+
+
+            <!-- =========================================================
+                 TOP NAVIGATION
+                 ========================================================= -->
+
+            <nav class="top-navigation">
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+
+                    <!-- Customer Home -->
+
+                    @if (!User.IsInRole("Admin"))
+                    {
+
+                        <a asp-area=""
+                           asp-controller="CustomerDashboard"
+                           asp-action="Index"
+                           class="top-nav-link">
+
+                            <i class="bi bi-house-door-fill"></i>
+
+                            <span>
+                                Home
+                            </span>
+
+                        </a>
+
+                    }
+
+
+                    <!-- Admin Dashboard -->
+
+                    @if (User.IsInRole("Admin"))
+                    {
+
+                        <a asp-area=""
+                           asp-controller="Dashboard"
+                           asp-action="Index"
+                           class="top-nav-link">
+
+                            <i class="bi bi-grid-1x2-fill"></i>
+
+                            <span>
+                                Dashboard
+                            </span>
+
+                        </a>
+
+                    }
+
+
+                    <!-- Transfers -->
+
+                    <a asp-area=""
+                       asp-controller="Transaction"
+                       asp-action="Index"
+                       class="top-nav-link">
+
+                        <i class="bi bi-arrow-left-right"></i>
+
+                        <span>
+                            Transfers
+                        </span>
+
+                    </a>
+
+
+                    <!-- Beneficiaries -->
+
+                    <a asp-area=""
+                       asp-controller="Beneficiary"
+                       asp-action="Index"
+                       class="top-nav-link">
+
+                        <i class="bi bi-person-lines-fill"></i>
+
+                        <span>
+                            Beneficiaries
+                        </span>
+
+                    </a>
+
+                }
+
+            </nav>
+
+
+            <!-- =========================================================
+                 USER / LOGIN AREA
+                 ========================================================= -->
+
+            <div class="top-user-area">
+
+                <partial name="_LoginPartial" />
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =========================================================
+             LOGGED-IN APPLICATION
+             ========================================================= -->
+
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+
+            <div class="application-body">
+
+
+                <!-- =================================================
+                     SIDEBAR
+                     ================================================= -->
+
+                <aside class="sidebar"
+                       id="bankingSidebar">
+
+
+                    <div class="sidebar-inner">
+
+
+                        <!-- ==========================================
+                             MAIN MENU
+                             ========================================== -->
+
+                        <div class="sidebar-section">
+
+                            <div class="sidebar-title">
+                                MAIN MENU
+                            </div>
+
+
+                            <!-- ======================================
+                                 CUSTOMER MENU
+                                 ====================================== -->
+
+                            @if (!User.IsInRole("Admin"))
+                            {
+
+                                <a asp-area=""
+                                   asp-controller="CustomerDashboard"
+                                   asp-action="Index"
+                                   class="sidebar-link">
+
+                                    <span class="sidebar-icon">
+                                        <i class="bi bi-house-door"></i>
+                                    </span>
+
+                                    <span class="sidebar-text">
+                                        Home
+                                    </span>
+
+                                </a>
+
+                            }
+
+
+                            <!-- ======================================
+                                 ADMIN MENU
+                                 ====================================== -->
+
+                            @if (User.IsInRole("Admin"))
+                            {
+
+                                <!-- Admin Dashboard -->
+
+                                <a asp-area=""
+                                   asp-controller="Dashboard"
+                                   asp-action="Index"
+                                   class="sidebar-link">
+
+                                    <span class="sidebar-icon">
+                                        <i class="bi bi-speedometer2"></i>
+                                    </span>
+
+                                    <span class="sidebar-text">
+                                        Dashboard
+                                    </span>
+
+                                </a>
+
+
+                                <!-- Customers -->
+
+                                <a asp-area=""
+                                   asp-controller="Customer"
+                                   asp-action="Index"
+                                   class="sidebar-link">
+
+                                    <span class="sidebar-icon">
+                                        <i class="bi bi-people"></i>
+                                    </span>
+
+                                    <span class="sidebar-text">
+                                        Customers
+                                    </span>
+
+                                </a>
+
+                            }
+
+
+                            <!-- Bank Accounts -->
+
+                            <a asp-area=""
+                               asp-controller="BankAccount"
+                               asp-action="Index"
+                               class="sidebar-link">
+
+                                <span class="sidebar-icon">
+                                    <i class="bi bi-bank2"></i>
+                                </span>
+
+                                <span class="sidebar-text">
+                                    Bank Accounts
+                                </span>
+
+                            </a>
+
+
+                            <!-- Beneficiaries -->
+
+                            <a asp-area=""
+                               asp-controller="Beneficiary"
+                               asp-action="Index"
+                               class="sidebar-link">
+
+                                <span class="sidebar-icon">
+                                    <i class="bi bi-person-lines-fill"></i>
+                                </span>
+
+                                <span class="sidebar-text">
+                                    Beneficiaries
+                                </span>
+
+                            </a>
+
+                        </div>
+
+
+
+                        <!-- =================================================
+                             TRANSACTIONS
+                             ================================================= -->
+
+                        <div class="sidebar-section">
+
+                            <div class="sidebar-title">
+                                TRANSACTIONS & SERVICES
+                            </div>
+
+
+                            <!-- Money Transfer -->
+
+                            <a asp-area=""
+                               asp-controller="Transaction"
+                               asp-action="Index"
+                               class="sidebar-link">
+
+                                <span class="sidebar-icon">
+                                    <i class="bi bi-arrow-left-right"></i>
+                                </span>
+
+                                <span class="sidebar-text">
+                                    Money Transfer
+                                </span>
+
+                            </a>
+
+
+                            <!-- Account Statement -->
+
+                            <a asp-area=""
+                               asp-controller="Transaction"
+                               asp-action="Statement"
+                               class="sidebar-link">
+
+                                <span class="sidebar-icon">
+                                    <i class="bi bi-file-earmark-text"></i>
+                                </span>
+
+                                <span class="sidebar-text">
+                                    Account Statement
+                                </span>
+
+                            </a>
+
+
+                            <!-- Bill Payments -->
+
+                            <a asp-area=""
+                               asp-controller="BillPayment"
+                               asp-action="Index"
+                               class="sidebar-link">
+
+                                <span class="sidebar-icon">
+                                    <i class="bi bi-receipt-cutoff"></i>
+                                </span>
+
+                                <span class="sidebar-text">
+                                    Bill Payments
+                                </span>
+
+                            </a>
+
+
+                            <!-- Cheque Requests -->
+
+                            <a asp-area=""
+                               asp-controller="ChequeBookRequest"
+                               asp-action="Index"
+                               class="sidebar-link">
+
+                                <span class="sidebar-icon">
+                                    <i class="bi bi-journal-text"></i>
+                                </span>
+
+                                <span class="sidebar-text">
+                                    Cheque Requests
+                                </span>
+
+                            </a>
+
+
+                            <!-- Cards -->
+
+                            <a asp-area=""
+                               asp-controller="Card"
+                               asp-action="Index"
+                               class="sidebar-link">
+
+                                <span class="sidebar-icon">
+                                    <i class="bi bi-credit-card-2-front"></i>
+                                </span>
+
+                                <span class="sidebar-text">
+                                    Cards
+                                </span>
+
+                            </a>
+
+
+                            <!-- Subscriptions -->
+
+                            <a asp-area=""
+                               asp-controller="Subscription"
+                               asp-action="Index"
+                               class="sidebar-link">
+
+                                <span class="sidebar-icon">
+                                    <i class="bi bi-arrow-repeat"></i>
+                                </span>
+
+                                <span class="sidebar-text">
+                                    Subscriptions
+                                </span>
+
+                            </a>
+
+
+                            <!-- AI Banking Assistant -->
+
+                            <a asp-area=""
+                               asp-controller="AI"
+                               asp-action="Index"
+                               class="sidebar-link">
+
+                                <span class="sidebar-icon">
+                                    <i class="bi bi-cpu"></i>
+                                </span>
+
+                                <span class="sidebar-text">
+                                    AI Assistant
+                                </span>
+
+                            </a>
+
+                        </div>
+
+
+
+                        <!-- =================================================
+                             ADMINISTRATION
+                             ================================================= -->
+
+                        @if (User.IsInRole("Admin"))
+                        {
+
+                            <div class="sidebar-section">
+
+                                <div class="sidebar-title">
+                                    ADMINISTRATION
+                                </div>
+
+
+                                <!-- Admin Panel -->
+
+                                <a asp-area=""
+                                   asp-controller="Admin"
+                                   asp-action="Index"
+                                   class="sidebar-link">
+
+                                    <span class="sidebar-icon">
+                                        <i class="bi bi-shield-lock"></i>
+                                    </span>
+
+                                    <span class="sidebar-text">
+                                        Admin Panel
+                                    </span>
+
+                                </a>
+
+
+                                <!-- Audit Logs -->
+
+                                <a asp-area=""
+                                   asp-controller="AuditLog"
+                                   asp-action="Index"
+                                   class="sidebar-link">
+
+                                    <span class="sidebar-icon">
+                                        <i class="bi bi-list-check"></i>
+                                    </span>
+
+                                    <span class="sidebar-text">
+                                        Audit Logs
+                                    </span>
+
+                                </a>
+
+                            </div>
+
+                        }
+
+
+
+                        <!-- =================================================
+                             SIDEBAR BOTTOM
+                             ================================================= -->
+
+                        <div class="sidebar-bottom">
+
+                            <a asp-area=""
+                               asp-controller="Home"
+                               asp-action="Privacy"
+                               class="sidebar-link">
+
+                                <span class="sidebar-icon">
+                                    <i class="bi bi-shield-check"></i>
+                                </span>
+
+                                <span class="sidebar-text">
+                                    Privacy
+                                </span>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </aside>
+
+
+
+                <!-- =================================================
+                     MAIN CONTENT
+                     ================================================= -->
+
+                <main class="main-content">
+
+                    <div class="page-container">
+
+                        @RenderBody()
+
+                    </div>
+
+                </main>
+
+            </div>
+
+        }
+        else
+        {
+
+            <!-- =========================================================
+                 PUBLIC / LOGGED-OUT CONTENT
+                 ========================================================= -->
+
+            <main class="public-main-content">
+
+                @RenderBody()
+
+            </main>
+
+        }
+
+
+
+        <!-- =========================================================
+             FOOTER
+             ========================================================= -->
+
+        <footer class="banking-footer">
+
+            <div>
+
+                <i class="bi bi-shield-lock-fill text-primary me-1"></i>
+
+                © 2026 Nexora Digital Bank
+
+                <span class="footer-separator px-2">
+                    |
+                </span>
+
+                Powered by YONO Technology
+
+                <span class="footer-separator px-2">
+                    |
+                </span>
+
+                <a asp-area=""
+                   asp-controller="Home"
+                   asp-action="Privacy">
+
+                    Privacy Policy
+
+                </a>
+
+            </div>
+
+        </footer>
+
+
+    </div>
+
+
+
+    <!-- =========================================================
+         SCRIPTS
+         ========================================================= -->
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/site.js"
+            asp-append-version="true"></script>
+
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById("bankingSidebar");
+            if (sidebar) {
+                sidebar.classList.toggle("sidebar-collapsed");
+                const isCollapsed = sidebar.classList.contains("sidebar-collapsed");
+                localStorage.setItem("nexora_sidebar_collapsed", isCollapsed ? "true" : "false");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const sidebar = document.getElementById("bankingSidebar");
+            if (sidebar && localStorage.getItem("nexora_sidebar_collapsed") === "true") {
+                sidebar.classList.add("sidebar-collapsed");
+            }
+        });
+    </script>
+
+
+    @await RenderSectionAsync(
+        "Scripts",
+        required: false)
+
+</body>
+
+</html>

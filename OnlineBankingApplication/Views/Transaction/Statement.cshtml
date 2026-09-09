@@ -1,0 +1,250 @@
+@model OnlineBankingApplication.ViewModels.AccountStatementViewModel
+
+@{
+    ViewData["Title"] = "Account Statement";
+}
+
+<div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-3">
+    <div>
+        <h1>
+            <i class="bi bi-file-earmark-text me-2 text-cyan"></i>Account Statement
+        </h1>
+        <p>View your detailed account activity, credits, debits and transaction balances.</p>
+    </div>
+
+    <a asp-action="Index" class="btn btn-outline-light">
+        <i class="bi bi-clock-history me-1"></i> Transaction History
+    </a>
+</div>
+
+<!-- Account Selection -->
+<div class="dashboard-card mb-4">
+    <h5 class="fw-bold text-dark mb-3">
+        <i class="bi bi-bank me-2 text-primary"></i>Select Account & Date Filter
+    </h5>
+
+    <form asp-action="Statement" method="get">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label fw-semibold text-secondary small text-uppercase">Bank Account</label>
+                <select name="accountId" class="form-select" required>
+                    <option value="">-- Select Account --</option>
+                    @foreach (var account in ViewBag.BankAccounts)
+                    {
+                        if (Model.Account?.BankAccountId == account.BankAccountId)
+                        {
+                            <option value="@account.BankAccountId" selected>
+                                @account.AccountNumber - @account.AccountType
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@account.BankAccountId">
+                                @account.AccountNumber - @account.AccountType
+                            </option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label fw-semibold text-secondary small text-uppercase">From Date</label>
+                <input type="date" name="fromDate" class="form-control" value="@(Model.FromDate?.ToString("yyyy-MM-dd"))" />
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label fw-semibold text-secondary small text-uppercase">To Date</label>
+                <input type="date" name="toDate" class="form-control" value="@(Model.ToDate?.ToString("yyyy-MM-dd"))" />
+            </div>
+
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-yono-primary w-100">
+                    <i class="bi bi-search me-1"></i>View
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@if (Model.Account != null)
+{
+    <!-- Account Information Banner -->
+    <div class="bg-navy text-white rounded-3 p-4 mb-4 shadow-sm">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+                <span class="text-cyan text-uppercase small fw-bold tracking-wide">Account Number</span>
+                <h2 class="fw-bold mb-1 text-white">@Model.Account.AccountNumber</h2>
+                <span class="badge bg-light text-navy fw-semibold px-3 py-1">@Model.Account.AccountType</span>
+            </div>
+
+            <div class="text-md-end">
+                <span class="text-cyan text-uppercase small fw-bold tracking-wide">Available Balance</span>
+                <h1 class="fw-extrabold mb-1 text-white">₹@Model.CurrentBalance.ToString("N2")</h1>
+                @if (Model.Account.IsActive)
+                {
+                    <span class="badge bg-success bg-opacity-20 text-success border border-success px-3 py-1">
+                        <i class="bi bi-check-circle-fill me-1"></i>Active Account
+                    </span>
+                }
+                else
+                {
+                    <span class="badge bg-danger bg-opacity-20 text-danger border border-danger px-3 py-1">Inactive Account</span>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="stat-icon-wrapper bg-primary bg-opacity-10 text-primary">
+                        <i class="bi bi-wallet2 fs-4"></i>
+                    </div>
+                    <div>
+                        <span class="text-secondary small fw-medium text-uppercase d-block">Opening Balance</span>
+                        <h4 class="fw-bold mb-0 text-dark">₹@Convert.ToDecimal(ViewBag.OpeningBalance).ToString("N2")</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="stat-icon-wrapper bg-success bg-opacity-10 text-success">
+                        <i class="bi bi-arrow-down-left fs-4"></i>
+                    </div>
+                    <div>
+                        <span class="text-secondary small fw-medium text-uppercase d-block">Total Credits</span>
+                        <h4 class="fw-bold mb-0 text-success">+ ₹@Model.TotalCredits.ToString("N2")</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="stat-icon-wrapper bg-danger bg-opacity-10 text-danger">
+                        <i class="bi bi-arrow-up-right fs-4"></i>
+                    </div>
+                    <div>
+                        <span class="text-secondary small fw-medium text-uppercase d-block">Total Debits</span>
+                        <h4 class="fw-bold mb-0 text-danger">- ₹@Model.TotalDebits.ToString("N2")</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statement Table -->
+    <div class="dashboard-card p-0 overflow-hidden">
+        <div class="p-4 border-bottom d-flex justify-content-between align-items-center bg-light">
+            <div>
+                <h5 class="fw-bold text-dark mb-0">
+                    <i class="bi bi-table me-2 text-primary"></i>Statement Entries
+                </h5>
+                <small class="text-muted">@Model.TransactionCount transaction(s) found</small>
+            </div>
+        </div>
+
+        @if (Model.Transactions.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4">Date</th>
+                            <th>Description</th>
+                            <th>Type</th>
+                            <th>Debit</th>
+                            <th>Credit</th>
+                            <th class="pe-4 text-end">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var transaction in Model.Transactions)
+                        {
+                            var isCredit = transaction.ToAccountNumber == Model.Account.AccountNumber
+                                            && transaction.FromBankAccountId != Model.Account.BankAccountId;
+
+                            <tr>
+                                <td class="ps-4">
+                                    <span class="fw-semibold text-dark d-block">@transaction.TransactionDate.ToString("dd MMM yyyy")</span>
+                                    <small class="text-muted">@transaction.TransactionDate.ToString("hh:mm tt")</small>
+                                </td>
+                                <td>
+                                    @if (isCredit)
+                                    {
+                                        <span class="fw-semibold text-dark d-block">Money received</span>
+                                        <small class="text-muted">From: @transaction.FromBankAccount?.AccountNumber</small>
+                                    }
+                                    else
+                                    {
+                                        <span class="fw-semibold text-dark d-block">Money transferred</span>
+                                        <small class="text-muted">To: @transaction.ToAccountNumber</small>
+                                    }
+                                </td>
+                                <td>
+                                    <span class="badge bg-secondary">@transaction.TransactionType</span>
+                                </td>
+                                <td>
+                                    @if (!isCredit)
+                                    {
+                                        <span class="fw-bold text-danger">- ₹@transaction.Amount.ToString("N2")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">—</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (isCredit)
+                                    {
+                                        <span class="fw-bold text-success">+ ₹@transaction.Amount.ToString("N2")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">—</span>
+                                    }
+                                </td>
+                                <td class="pe-4 text-end">
+                                    @if (transaction.Status == "Success")
+                                    {
+                                        <span class="badge bg-success bg-opacity-10 text-success border border-success">
+                                            <i class="bi bi-check-circle-fill me-1"></i>Success
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning bg-opacity-10 text-warning border border-warning">
+                                            @transaction.Status
+                                        </span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <div class="stat-icon-wrapper mx-auto mb-3 bg-light text-secondary" style="width:60px; height:60px;">
+                    <i class="bi bi-receipt fs-2"></i>
+                </div>
+                <h5 class="fw-bold text-dark mb-1">No transactions found</h5>
+                <p class="text-muted small">No transactions are available for the selected account and period.</p>
+            </div>
+        }
+    </div>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

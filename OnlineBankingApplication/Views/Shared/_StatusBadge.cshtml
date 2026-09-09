@@ -1,0 +1,22 @@
+﻿@{
+    var status = ViewData["Status"]?.ToString() ?? "Unknown";
+
+    var cssClass = status.ToLowerInvariant() switch
+    {
+        "success" => "active",
+        "approved" => "active",
+        "active" => "active",
+
+        "pending" => "pending",
+
+        "failed" => "inactive",
+        "rejected" => "inactive",
+        "inactive" => "inactive",
+
+        _ => ""
+    };
+}
+
+<span class="status-badge @cssClass">
+    @status
+</span>

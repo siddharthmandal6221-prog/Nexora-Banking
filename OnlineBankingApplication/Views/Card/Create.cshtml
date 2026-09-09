@@ -1,0 +1,300 @@
+﻿@model OnlineBankingApplication.DTOs.CardDto
+@{
+    ViewData["Title"] = "Create Card";
+}
+
+<div class="container-fluid px-0">
+
+    <div class="mb-4">
+        <h1 class="fw-bold mb-1">Create Card</h1>
+        <p class="text-muted">
+            Create a new card and assign it to a bank account.
+        </p>
+    </div>
+
+
+    <div class="card form-card">
+
+        <div class="card-header-custom">
+
+            <h4>Card Information</h4>
+
+            <p>
+                Enter the details required to create the card.
+            </p>
+
+        </div>
+
+
+        <div class="card-body p-4">
+
+            <form asp-action="Create" method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="All"
+                     class="text-danger mb-3">
+                </div>
+
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+
+                        <label asp-for="LastFourDigits"
+                               class="form-label">
+                            Last Four Digits
+                        </label>
+
+                        <input asp-for="LastFourDigits"
+                               class="form-control"
+                               placeholder="e.g. 1234"
+                               maxlength="4" />
+
+                        <span asp-validation-for="LastFourDigits"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label asp-for="CardNetwork"
+                               class="form-label">
+                            Card Network
+                        </label>
+
+                        <select asp-for="CardNetwork"
+                                class="form-select">
+
+                            <option value="VISA">
+                                VISA
+                            </option>
+
+                            <option value="MasterCard">
+                                MasterCard
+                            </option>
+
+                            <option value="RuPay">
+                                RuPay
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label asp-for="CardType"
+                               class="form-label">
+                            Card Type
+                        </label>
+
+                        <select asp-for="CardType"
+                                class="form-select">
+
+                            <option value="Debit Card">
+                                Debit Card
+                            </option>
+
+                            <option value="Credit Card">
+                                Credit Card
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label asp-for="CardHolderName"
+                               class="form-label">
+                            Card Holder Name
+                        </label>
+
+                        <input asp-for="CardHolderName"
+                               class="form-control"
+                               placeholder="Card holder name" />
+
+                        <span asp-validation-for="CardHolderName"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <label asp-for="ExpiryMonth"
+                               class="form-label">
+                            Expiry Month
+                        </label>
+
+                        <select asp-for="ExpiryMonth"
+                                class="form-select">
+
+                            @for (int month = 1; month <= 12; month++)
+                            {
+                                <option value="@month">
+                                    @month.ToString("00")
+                                </option>
+                            }
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <label asp-for="ExpiryYear"
+                               class="form-label">
+                            Expiry Year
+                        </label>
+
+                        <select asp-for="ExpiryYear"
+                                class="form-select">
+
+                            @for (int year = DateTime.Now.Year;
+                                  year <= DateTime.Now.Year + 10;
+                                  year++)
+                            {
+                                <option value="@year">
+                                    @year
+                                </option>
+                            }
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <label asp-for="BankAccountId"
+                               class="form-label">
+                            Bank Account
+                        </label>
+
+                        <select asp-for="BankAccountId"
+                                class="form-select">
+
+                            <option value="">
+                                -- Select Bank Account --
+                            </option>
+
+                            @foreach (var account in ViewBag.BankAccounts)
+                            {
+                                <option value="@account.BankAccountId">
+                                    @account.AccountNumber -
+                                    @account.Customer?.FullName
+                                </option>
+                            }
+
+                        </select>
+
+                        <span asp-validation-for="BankAccountId"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+                    <div class="col-12">
+
+                        <div class="form-check mt-2">
+
+                            <input asp-for="IsActive"
+                                   class="form-check-input" />
+
+                            <label asp-for="IsActive"
+                                   class="form-check-label">
+                                Active Card
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <hr class="my-4" />
+
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Create Card
+                    </button>
+
+                    <a asp-action="Index"
+                       class="btn btn-secondary">
+                        Back to Cards
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    .form-card {
+        background: white;
+        border: 1px solid #e9e2ff;
+        border-radius: 18px;
+        max-width: 900px;
+        box-shadow: 0 8px 25px rgba(90,60,150,.06);
+    }
+
+    .card-header-custom {
+        padding: 22px 25px;
+        border-bottom: 1px solid #eeeaf7;
+    }
+
+        .card-header-custom h4 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .card-header-custom p {
+            margin: 5px 0 0;
+            color: #77738a;
+            font-size: 13px;
+        }
+
+    .form-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #55536b;
+    }
+
+    .form-control,
+    .form-select {
+        border: 1px solid #ddd8ef;
+        border-radius: 10px;
+        min-height: 42px;
+    }
+
+</style>
+
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial");
+    }
+
+}

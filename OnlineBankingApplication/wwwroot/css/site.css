@@ -1,0 +1,726 @@
+/* =========================================================
+   NEXORA DIGITAL BANKING - SBI YONO ENTERPRISE THEME (NO GLASSMORPHISM)
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+/* =========================================================
+   DESIGN TOKENS (SOLID & CONSISTENT)
+   ========================================================= */
+:root {
+    --nexora-navy-dark: #07172b;
+    --nexora-navy-main: #0a2540;
+    --nexora-navy-light: #103863;
+    --nexora-navy-border: #1e40af;
+    
+    --nexora-blue-primary: #0052cc;
+    --nexora-blue-hover: #003d99;
+    --nexora-blue-gradient: linear-gradient(135deg, #0052cc 0%, #0284c7 100%);
+    
+    --nexora-cyan-accent: #00d2ff;
+    --nexora-gold: #ffb703;
+    
+    --nexora-bg-body: #f4f6fa;
+    --nexora-surface-card: #ffffff;
+    --nexora-surface-alt: #f8fafc;
+    
+    --nexora-text-heading: #0f172a;
+    --nexora-text-body: #334155;
+    --nexora-text-muted: #64748b;
+    
+    --nexora-border: #cbd5e1;
+    --nexora-border-light: #e2e8f0;
+    
+    --nexora-shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
+    --nexora-shadow-md: 0 6px 16px rgba(15, 23, 42, 0.08);
+}
+
+/* =========================================================
+   BASE RESET
+   ========================================================= */
+html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 15px;
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--nexora-text-body);
+    background: var(--nexora-bg-body);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Focus outline */
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 82, 204, 0.25) !important;
+    border-color: var(--nexora-blue-primary) !important;
+}
+
+.banking-app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================================================
+   UNIFORM HIGH-CONTRAST SOLID BUTTONS
+   ========================================================= */
+.btn,
+.dashboard-action,
+.add-beneficiary-btn,
+.add-account-btn,
+.primary-button,
+a.dashboard-action,
+a.add-beneficiary-btn,
+a.add-account-btn {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 650;
+    letter-spacing: -0.1px;
+}
+
+.btn-primary,
+.dashboard-action,
+.add-beneficiary-btn,
+.add-account-btn,
+.primary-button,
+a.dashboard-action,
+a.add-beneficiary-btn,
+a.add-account-btn {
+    background: var(--nexora-blue-primary) !important;
+    color: #ffffff !important;
+    font-weight: 650 !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 10px 20px !important;
+    box-shadow: 0 4px 12px rgba(0, 82, 204, 0.3) !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    transition: all 0.2s ease !important;
+}
+
+.btn-primary:hover,
+.dashboard-action:hover,
+.add-beneficiary-btn:hover,
+.add-account-btn:hover,
+.primary-button:hover,
+a.dashboard-action:hover,
+a.add-beneficiary-btn:hover,
+a.add-account-btn:hover {
+    background: var(--nexora-blue-hover) !important;
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 18px rgba(0, 82, 204, 0.4) !important;
+}
+
+.btn-outline-primary {
+    border: 1.5px solid var(--nexora-blue-primary) !important;
+    color: var(--nexora-blue-primary) !important;
+    background: #ffffff !important;
+    font-weight: 600 !important;
+    border-radius: 10px !important;
+    padding: 8px 18px !important;
+    transition: all 0.2s ease !important;
+}
+
+.btn-outline-primary:hover {
+    background: var(--nexora-blue-primary) !important;
+    color: #ffffff !important;
+}
+
+.btn-secondary {
+    background: #e2e8f0 !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+    font-weight: 600 !important;
+    border-radius: 10px !important;
+    padding: 8px 16px !important;
+}
+
+.btn-secondary:hover {
+    background: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+/* =========================================================
+   TOP NAVBAR (SOLID CONSISTENT DEEP NAVY HEADER)
+   ========================================================= */
+.top-navbar {
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    padding: 0 28px;
+    box-sizing: border-box;
+    background: var(--nexora-navy-main);
+    color: #ffffff;
+    border-bottom: 3px solid var(--nexora-blue-primary);
+    box-shadow: 0 4px 16px rgba(7, 23, 43, 0.3);
+    position: relative;
+    z-index: 1000;
+}
+
+.top-navbar-left {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 16px;
+}
+
+/* LOGO */
+.banking-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    white-space: nowrap;
+}
+
+.logo-icon-box {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: var(--nexora-navy-light);
+    border: 1px solid var(--nexora-navy-border);
+    transition: transform 0.2s ease;
+}
+
+.banking-logo:hover .logo-icon-box {
+    transform: scale(1.03);
+    border-color: var(--nexora-cyan-accent);
+}
+
+.logo-text-wrapper {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+}
+
+.logo-brand {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+}
+
+.logo-tagline {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    color: var(--nexora-gold);
+    text-transform: uppercase;
+}
+
+/* TOP NAVIGATION */
+.top-navigation {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 50px;
+    flex-shrink: 0;
+}
+
+.top-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    color: rgba(255, 255, 255, 0.88) !important;
+    text-decoration: none !important;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.top-nav-link i {
+    font-size: 16px;
+    color: var(--nexora-cyan-accent);
+}
+
+.top-nav-link:hover {
+    background: var(--nexora-navy-light);
+    color: #ffffff !important;
+}
+
+/* TOP USER AREA */
+.top-user-area {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-shrink: 0;
+}
+
+.logged-in-area {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--nexora-navy-light);
+    padding: 6px 14px 6px 8px;
+    border-radius: 30px;
+    border: 1px solid var(--nexora-navy-border);
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--nexora-cyan-accent);
+    color: var(--nexora-navy-dark);
+    font-size: 15px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-greeting {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.user-email {
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.logout-button {
+    height: 38px;
+    padding: 0 18px;
+    border: 1px solid var(--nexora-navy-border);
+    border-radius: 8px;
+    background: var(--nexora-navy-light);
+    color: #ffffff !important;
+    font-size: 13px;
+    font-weight: 650;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.logout-button:hover {
+    background: #dc2626;
+    border-color: transparent;
+    color: #ffffff !important;
+}
+
+/* MOBILE / SIDEBAR MENU TOGGLE BUTTON */
+.mobile-menu-button {
+    background: var(--nexora-navy-light);
+    border: 1px solid var(--nexora-navy-border);
+    color: #ffffff;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mobile-menu-button:hover {
+    background: var(--nexora-blue-primary);
+    border-color: var(--nexora-cyan-accent);
+    color: #ffffff;
+    transform: scale(1.05);
+}
+
+.application-body {
+    display: flex;
+    flex: 1;
+    min-height: calc(100vh - 120px);
+}
+
+.sidebar {
+    width: 250px;
+    flex-shrink: 0;
+    background: #ffffff;
+    border-right: 1px solid var(--nexora-border-light);
+    box-shadow: var(--nexora-shadow-sm);
+    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), margin-left 0.25s ease;
+    overflow-x: hidden;
+}
+
+.sidebar.sidebar-collapsed {
+    width: 72px;
+}
+
+.sidebar.sidebar-collapsed .sidebar-text,
+.sidebar.sidebar-collapsed .sidebar-title {
+    display: none !important;
+}
+
+.sidebar.sidebar-collapsed .sidebar-link {
+    justify-content: center;
+    padding: 12px 0;
+}
+
+.sidebar.sidebar-collapsed .sidebar-bottom {
+    display: flex;
+    justify-content: center;
+}
+
+.sidebar-inner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 14px;
+    box-sizing: border-box;
+}
+
+.sidebar-section {
+    margin-bottom: 24px;
+}
+
+.sidebar-title {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--nexora-text-muted);
+    letter-spacing: 1px;
+    padding: 0 12px 10px;
+    text-transform: uppercase;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    color: var(--nexora-text-body) !important;
+    text-decoration: none !important;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 3px;
+    transition: all 0.2s ease;
+}
+
+.sidebar-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    color: var(--nexora-blue-primary);
+    flex-shrink: 0;
+}
+
+.sidebar-link:hover {
+    background: #f1f5f9;
+    color: var(--nexora-blue-primary) !important;
+}
+
+.sidebar-link.active {
+    background: #e0f2fe;
+    color: var(--nexora-blue-primary) !important;
+    font-weight: 700;
+    border-left: 4px solid var(--nexora-blue-primary);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--nexora-border-light);
+}
+
+/* =========================================================
+   MAIN CONTENT AREA & PAGE HEADERS
+   ========================================================= */
+.main-content {
+    flex: 1;
+    background: var(--nexora-bg-body);
+    padding: 32px 36px;
+}
+
+.page-container {
+    max-width: 1350px;
+    margin: 0 auto;
+}
+
+/* Uniform Page Headers */
+.page-header,
+.dashboard-header,
+.bank-header,
+.beneficiary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+}
+
+.page-header h1,
+.dashboard-header h1,
+.bank-header h1,
+.beneficiary-header h1 {
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--nexora-text-heading);
+    margin: 0 0 4px;
+    letter-spacing: -0.5px;
+}
+
+.page-header p,
+.dashboard-header p,
+.bank-header p,
+.beneficiary-header p {
+    margin: 0;
+    color: var(--nexora-text-muted);
+    font-size: 14px;
+}
+
+/* =========================================================
+   SOLID CARDS & STATISTICAL TILES (ZERO GLASSMORPHISM)
+   ========================================================= */
+.card,
+.stat-card,
+.section-card,
+.summary-box,
+.beneficiary-card,
+.account-card,
+.dashboard-panel {
+    background: #ffffff !important;
+    border: 1px solid var(--nexora-border-light) !important;
+    border-radius: 14px !important;
+    box-shadow: var(--nexora-shadow-sm) !important;
+    transition: all 0.2s ease !important;
+}
+
+.stat-card:hover,
+.section-card:hover,
+.beneficiary-card:hover,
+.account-card:hover {
+    box-shadow: var(--nexora-shadow-md) !important;
+    border-color: var(--nexora-border) !important;
+}
+
+/* SOLID HERO BALANCE CARD */
+.balance-card {
+    background: var(--nexora-navy-main) !important;
+    border: 1px solid var(--nexora-navy-border) !important;
+    border-radius: 16px !important;
+    padding: 28px 32px;
+    color: #ffffff;
+    position: relative;
+    box-shadow: var(--nexora-shadow-md) !important;
+}
+
+.balance-card::after,
+.balance-card::before {
+    display: none !important; /* Remove glassmorphic blurry circles */
+}
+
+.balance-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+}
+
+.balance-value {
+    font-size: 36px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+}
+
+.balance-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.balance-info {
+    font-size: 13px;
+    color: #cbd5e1;
+}
+
+.balance-icon-box {
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+    background: var(--nexora-blue-primary);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+/* STAT TILES */
+.stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.stat-title {
+    font-size: 13px;
+    font-weight: 650;
+    color: var(--nexora-text-muted);
+}
+
+.stat-icon-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: #e0f2fe;
+    color: #0284c7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--nexora-text-heading);
+}
+
+/* =========================================================
+   TABLES & BADGES
+   ========================================================= */
+.table-responsive {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--nexora-border-light);
+    background: #ffffff;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table thead th {
+    background: var(--nexora-surface-alt);
+    color: var(--nexora-text-muted);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--nexora-border-light);
+}
+
+.table tbody td {
+    padding: 14px 18px;
+    vertical-align: middle;
+    color: var(--nexora-text-body);
+    font-size: 14px;
+    border-bottom: 1px solid var(--nexora-border-light);
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.badge-status {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 650;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.badge-active, .badge-success, .badge-approved {
+    background: #dcfce7;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+}
+
+.badge-pending {
+    background: #fef3c7;
+    color: #b45309;
+    border: 1px solid #fde68a;
+}
+
+.badge-rejected, .badge-failed, .badge-blocked {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+.banking-footer {
+    background: #ffffff;
+    border-top: 1px solid var(--nexora-border-light);
+    padding: 18px 30px;
+    font-size: 13px;
+    color: var(--nexora-text-muted);
+    text-align: center;
+}
+
+.banking-footer a {
+    color: var(--nexora-blue-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.banking-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .main-content {
+        padding: 20px 16px;
+    }
+    .top-navigation {
+        display: none;
+    }
+}

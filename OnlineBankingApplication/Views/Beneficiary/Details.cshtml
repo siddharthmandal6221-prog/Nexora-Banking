@@ -1,0 +1,62 @@
+﻿@model OnlineBankingApplication.DTOs.BeneficiaryDto
+
+@{
+    ViewData["Title"] = "Beneficiary Details";
+}
+
+<h1>Beneficiary Details</h1>
+
+<div class="card">
+    <div class="card-body">
+
+        <dl class="row">
+
+            <dt class="col-sm-3">
+                Beneficiary ID
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.BeneficiaryId
+            </dd>
+
+            <dt class="col-sm-3">
+                Beneficiary Name
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.BeneficiaryName
+            </dd>
+
+            <dt class="col-sm-3">
+                Account Number
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.AccountNumber
+            </dd>
+
+            <dt class="col-sm-3">
+                Bank Name
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.BankName
+            </dd>
+
+            <dt class="col-sm-3">
+                Customer ID
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.CustomerId
+            </dd>
+
+        </dl>
+
+        <a asp-action="Index"
+           class="btn btn-secondary">
+            Back to List
+        </a>
+
+    </div>
+</div>

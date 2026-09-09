@@ -1,0 +1,311 @@
+@model IEnumerable<OnlineBankingApplication.DTOs.BillPaymentDto>
+@{
+    ViewData["Title"] = "Bill Payments";
+
+    var payments = Model?.ToList() ?? new List<OnlineBankingApplication.DTOs.BillPaymentDto>();
+    var totalPayments = payments.Count;
+    var totalAmount = payments.Sum(p => p.Amount);
+    var successfulPayments = payments.Count(p => p.Status == "Success");
+    var pendingPayments = payments.Count(p => p.Status == "Pending");
+}
+
+<div class="container-fluid px-0">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold mb-1" style="color: var(--nexora-text-heading); font-size: 30px;">Bill Payments</h1>
+            <p class="text-muted m-0" style="font-size: 14px;">Manage your utility bills and payment history.</p>
+        </div>
+
+        <a asp-controller="BillPayment"
+           asp-action="Create"
+           class="btn-primary">
+            <i class="bi bi-plus-circle me-1"></i>
+            Make Bill Payment
+        </a>
+    </div>
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-lg-3 col-md-6">
+            <div class="summary-box p-4 d-flex align-items-center gap-3">
+                <div class="stat-icon-badge" style="width: 48px; height: 48px; font-size: 20px;">
+                    <i class="bi bi-receipt"></i>
+                </div>
+
+                <div>
+                    <span class="text-muted fw-semibold d-block mb-1" style="font-size: 13px;">Total Payments</span>
+                    <h2 class="fw-bold fs-3 text-dark m-0">@totalPayments</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="summary-box p-4 d-flex align-items-center gap-3">
+                <div class="stat-icon-badge" style="width: 48px; height: 48px; font-size: 20px; background: #e0f2fe; color: #0284c7;">
+                    <i class="bi bi-wallet2"></i>
+                </div>
+
+                <div>
+                    <span class="text-muted fw-semibold d-block mb-1" style="font-size: 13px;">Total Amount</span>
+                    <h2 class="fw-bold fs-3 text-primary m-0">₹@totalAmount.ToString("N2")</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="summary-box p-4 d-flex align-items-center gap-3">
+                <div class="stat-icon-badge" style="width: 48px; height: 48px; font-size: 20px; background: #dcfce7; color: #15803d;">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+
+                <div>
+                    <span class="text-muted fw-semibold d-block mb-1" style="font-size: 13px;">Successful</span>
+                    <h2 class="fw-bold fs-3 text-success m-0">@successfulPayments</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="summary-box p-4 d-flex align-items-center gap-3">
+                <div class="stat-icon-badge" style="width: 48px; height: 48px; font-size: 20px; background: #fef3c7; color: #b45309;">
+                    <i class="bi bi-clock-history"></i>
+                </div>
+
+                <div>
+                    <span class="text-muted fw-semibold d-block mb-1" style="font-size: 13px;">Pending</span>
+                    <h2 class="fw-bold fs-3 text-warning m-0">@pendingPayments</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Category Shortcuts Card -->
+    <div class="section-card mb-4 p-4">
+
+        <div class="mb-3">
+            <h5 class="fw-bold text-dark fs-6 mb-1">Pay Your Utility Bills</h5>
+            <p class="text-muted m-0" style="font-size: 13px;">Select a category to make an instant bill payment.</p>
+        </div>
+
+        <div class="row g-3">
+
+            <div class="col-lg-2 col-md-4 col-6">
+                <a asp-controller="BillPayment" asp-action="Create"
+                   class="d-flex flex-column align-items-center justify-content-center p-3 rounded-3 text-decoration-none text-dark border h-100"
+                   style="background: #ffffff; transition: all 0.2s ease;">
+
+                    <div class="stat-icon-badge mb-2" style="width: 40px; height: 40px; font-size: 18px; background: #fef3c7; color: #b45309;">
+                        <i class="bi bi-lightning-charge-fill"></i>
+                    </div>
+
+                    <span class="fw-bold" style="font-size: 13px;">Electricity</span>
+                </a>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-6">
+                <a asp-controller="BillPayment" asp-action="Create"
+                   class="d-flex flex-column align-items-center justify-content-center p-3 rounded-3 text-decoration-none text-dark border h-100"
+                   style="background: #ffffff; transition: all 0.2s ease;">
+
+                    <div class="stat-icon-badge mb-2" style="width: 40px; height: 40px; font-size: 18px; background: #e0f2fe; color: #0284c7;">
+                        <i class="bi bi-droplet-fill"></i>
+                    </div>
+
+                    <span class="fw-bold" style="font-size: 13px;">Water</span>
+                </a>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-6">
+                <a asp-controller="BillPayment" asp-action="Create"
+                   class="d-flex flex-column align-items-center justify-content-center p-3 rounded-3 text-decoration-none text-dark border h-100"
+                   style="background: #ffffff; transition: all 0.2s ease;">
+
+                    <div class="stat-icon-badge mb-2" style="width: 40px; height: 40px; font-size: 18px; background: #fee2e2; color: #b91c1c;">
+                        <i class="bi bi-fire"></i>
+                    </div>
+
+                    <span class="fw-bold" style="font-size: 13px;">Gas</span>
+                </a>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-6">
+                <a asp-controller="BillPayment" asp-action="Create"
+                   class="d-flex flex-column align-items-center justify-content-center p-3 rounded-3 text-decoration-none text-dark border h-100"
+                   style="background: #ffffff; transition: all 0.2s ease;">
+
+                    <div class="stat-icon-badge mb-2" style="width: 40px; height: 40px; font-size: 18px; background: #e0e7ff; color: #4338ca;">
+                        <i class="bi bi-phone-fill"></i>
+                    </div>
+
+                    <span class="fw-bold" style="font-size: 13px;">Mobile</span>
+                </a>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-6">
+                <a asp-controller="BillPayment" asp-action="Create"
+                   class="d-flex flex-column align-items-center justify-content-center p-3 rounded-3 text-decoration-none text-dark border h-100"
+                   style="background: #ffffff; transition: all 0.2s ease;">
+
+                    <div class="stat-icon-badge mb-2" style="width: 40px; height: 40px; font-size: 18px; background: #dcfce7; color: #15803d;">
+                        <i class="bi bi-wifi"></i>
+                    </div>
+
+                    <span class="fw-bold" style="font-size: 13px;">Internet</span>
+                </a>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-6">
+                <a asp-controller="BillPayment" asp-action="Create"
+                   class="d-flex flex-column align-items-center justify-content-center p-3 rounded-3 text-decoration-none text-dark border h-100"
+                   style="background: #ffffff; transition: all 0.2s ease;">
+
+                    <div class="stat-icon-badge mb-2" style="width: 40px; height: 40px; font-size: 18px; background: #fefce8; color: #ca8a04;">
+                        <i class="bi bi-tv-fill"></i>
+                    </div>
+
+                    <span class="fw-bold" style="font-size: 13px;">DTH</span>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- History Card -->
+    <div class="section-card">
+
+        <div class="p-4 border-bottom d-flex justify-content-between align-items-center">
+
+            <div>
+                <h5 class="fw-bold text-dark fs-6 mb-1">Payment History</h5>
+                <p class="text-muted m-0" style="font-size: 13px;">Your recent bill payments and receipts.</p>
+            </div>
+
+            <span class="badge bg-primary text-white fw-bold px-3 py-2" style="border-radius: 20px;">
+                @totalPayments payment(s)
+            </span>
+
+        </div>
+
+        @if (payments.Any())
+        {
+            <div class="table-responsive">
+
+                <table class="table align-middle mb-0">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Bill Type</th>
+                            <th>Biller Name</th>
+                            <th>Consumer No.</th>
+                            <th>Amount</th>
+                            <th>Account</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var payment in payments.OrderByDescending(p => p.PaymentDate))
+                        {
+                            var statusClass = payment.Status?.ToLowerInvariant() switch
+                            {
+                                "success" => "badge-success",
+                                "approved" => "badge-approved",
+                                "pending" => "badge-pending",
+                                _ => "badge-rejected"
+                            };
+
+                            <tr>
+
+                                <td class="fw-bold text-primary">
+                                    #@payment.BillPaymentId
+                                </td>
+
+                                <td>
+                                    <span class="badge bg-light text-dark border px-2 py-1">
+                                        @payment.BillType
+                                    </span>
+                                </td>
+
+                                <td class="fw-bold text-dark">
+                                    @payment.BillerName
+                                </td>
+
+                                <td class="fw-semibold">
+                                    @payment.ConsumerNumber
+                                </td>
+
+                                <td class="fw-bold fs-6">
+                                    ₹@payment.Amount.ToString("N2")
+                                </td>
+
+                                <td class="fw-semibold text-muted">
+                                    @payment.BankAccountNumber
+                                </td>
+
+                                <td>
+                                    <div class="fw-semibold text-dark">
+                                        @payment.PaymentDate.ToString("dd MMM yyyy")
+                                    </div>
+
+                                    <small class="text-muted" style="font-size: 11px;">
+                                        @payment.PaymentDate.ToString("hh:mm tt")
+                                    </small>
+                                </td>
+
+                                <td>
+                                    <span class="badge-status @statusClass">
+                                        @payment.Status
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <a asp-controller="BillPayment"
+                                       asp-action="Details"
+                                       asp-route-id="@payment.BillPaymentId"
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i> Details
+                                    </a>
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+
+                <div class="stat-icon-badge mx-auto mb-3" style="width: 56px; height: 56px; font-size: 24px;">
+                    <i class="bi bi-receipt"></i>
+                </div>
+
+                <h5 class="fw-bold text-dark mb-1">No bill payments yet</h5>
+
+                <p class="text-muted mb-3" style="font-size: 13px;">
+                    Your bill payment history will appear here once you make your first payment.
+                </p>
+
+                <a asp-controller="BillPayment"
+                   asp-action="Create"
+                   class="btn-primary">
+                    <i class="bi bi-plus-circle me-1"></i> Make Your First Payment
+                </a>
+
+            </div>
+        }
+
+    </div>
+
+</div>

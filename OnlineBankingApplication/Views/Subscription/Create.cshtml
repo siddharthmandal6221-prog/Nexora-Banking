@@ -1,0 +1,340 @@
+﻿@model OnlineBankingApplication.DTOs.SubscriptionDto
+
+@{
+    ViewData["Title"] = "Create Subscription";
+}
+
+<div class="container-fluid px-0">
+
+    <div class="mb-4">
+
+        <h1 class="fw-bold mb-1">
+            Create Subscription
+        </h1>
+
+        <p class="text-muted">
+            Create a recurring payment subscription for a customer.
+        </p>
+
+    </div>
+
+
+    <div class="card form-card">
+
+        <div class="card-header-custom">
+
+            <h4>Subscription Information</h4>
+
+            <p>
+                Enter the details required for the subscription.
+            </p>
+
+        </div>
+
+
+        <div class="card-body p-4">
+
+            <form asp-action="Create" method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="All"
+                     class="text-danger mb-3">
+                </div>
+
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+
+                        <label asp-for="MerchantName"
+                               class="form-label">
+                            Merchant Name
+                        </label>
+
+                        <input asp-for="MerchantName"
+                               class="form-control"
+                               placeholder="e.g. Netflix" />
+
+                        <span asp-validation-for="MerchantName"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label asp-for="Category"
+                               class="form-label">
+                            Category
+                        </label>
+
+                        <select asp-for="Category"
+                                class="form-select">
+
+                            <option value="">
+                                -- Select Category --
+                            </option>
+
+                            <option value="Entertainment">
+                                Entertainment
+                            </option>
+
+                            <option value="Utilities">
+                                Utilities
+                            </option>
+
+                            <option value="Insurance">
+                                Insurance
+                            </option>
+
+                            <option value="Shopping">
+                                Shopping
+                            </option>
+
+                            <option value="Education">
+                                Education
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label asp-for="Amount"
+                               class="form-label">
+                            Amount
+                        </label>
+
+                        <input asp-for="Amount"
+                               class="form-control"
+                               type="number"
+                               step="0.01"
+                               placeholder="0.00" />
+
+                        <span asp-validation-for="Amount"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label asp-for="BillingCycle"
+                               class="form-label">
+                            Billing Cycle
+                        </label>
+
+                        <select asp-for="BillingCycle"
+                                class="form-select">
+
+                            <option value="Monthly">
+                                Monthly
+                            </option>
+
+                            <option value="Weekly">
+                                Weekly
+                            </option>
+
+                            <option value="Quarterly">
+                                Quarterly
+                            </option>
+
+                            <option value="Yearly">
+                                Yearly
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label asp-for="CustomerId"
+                               class="form-label">
+                            Customer
+                        </label>
+
+                        <select asp-for="CustomerId"
+                                class="form-select">
+
+                            <option value="">
+                                -- Select Customer --
+                            </option>
+
+                            @foreach (var customer in ViewBag.Customers)
+                            {
+                                <option value="@customer.CustomerId">
+
+                                    @customer.FullName -
+                                    @customer.Email
+
+                                </option>
+                            }
+
+                        </select>
+
+                        <span asp-validation-for="CustomerId"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label asp-for="BankAccountId"
+                               class="form-label">
+                            Bank Account
+                        </label>
+
+                        <select asp-for="BankAccountId"
+                                class="form-select">
+
+                            <option value="">
+                                -- Select Bank Account --
+                            </option>
+
+                            @foreach (var account in ViewBag.BankAccounts)
+                            {
+                                <option value="@account.BankAccountId">
+
+                                    @account.AccountNumber -
+                                    @account.Customer?.FullName
+
+                                </option>
+                            }
+
+                        </select>
+
+                        <span asp-validation-for="BankAccountId"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label asp-for="NextPaymentDate"
+                               class="form-label">
+                            Next Payment Date
+                        </label>
+
+                        <input asp-for="NextPaymentDate"
+                               class="form-control"
+                               type="date" />
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label asp-for="Status"
+                               class="form-label">
+                            Status
+                        </label>
+
+                        <select asp-for="Status"
+                                class="form-select">
+
+                            <option value="Active">
+                                Active
+                            </option>
+
+                            <option value="Inactive">
+                                Inactive
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <hr class="my-4" />
+
+
+                <button type="submit"
+                        class="btn btn-primary">
+
+                    Create Subscription
+
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+
+                    Back to Subscriptions
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    .form-card {
+        background: white;
+        border: 1px solid #e9e2ff;
+        border-radius: 18px;
+        max-width: 900px;
+        box-shadow: 0 8px 25px rgba(90,60,150,.06);
+    }
+
+    .card-header-custom {
+        padding: 22px 25px;
+        border-bottom: 1px solid #eeeaf7;
+    }
+
+        .card-header-custom h4 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .card-header-custom p {
+            margin: 5px 0 0;
+            color: #77738a;
+            font-size: 13px;
+        }
+
+    .form-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #55536b;
+    }
+
+    .form-control,
+    .form-select {
+        border: 1px solid #ddd8ef;
+        border-radius: 10px;
+        min-height: 42px;
+    }
+
+</style>
+
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial");
+    }
+
+}

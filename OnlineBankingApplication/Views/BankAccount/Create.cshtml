@@ -1,0 +1,736 @@
+﻿@model OnlineBankingApplication.DTOs.BankAccountDto
+@{
+    ViewData["Title"] = "Create Bank Account";
+}
+
+<style>
+
+    .create-page {
+        padding: 30px 0 60px;
+    }
+
+    /* ==============================
+           HEADER
+           ============================== */
+
+    .create-header {
+        margin-bottom: 28px;
+    }
+
+        .create-header h1 {
+            font-size: 38px;
+            font-weight: 700;
+            color: #182433;
+            margin-bottom: 6px;
+        }
+
+        .create-header p {
+            color: #718096;
+            font-size: 15px;
+            margin-bottom: 0;
+        }
+
+
+    /* ==============================
+           FORM CARD
+           ============================== */
+
+    .form-card {
+        background: #ffffff;
+        border: 1px solid #e7ebf0;
+        border-radius: 18px;
+        box-shadow: 0 6px 22px rgba(25, 42, 70, 0.06);
+        overflow: hidden;
+    }
+
+    .form-card-header {
+        padding: 22px 28px;
+        border-bottom: 1px solid #edf0f4;
+        background: #ffffff;
+    }
+
+    .form-card-title {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 700;
+        color: #182433;
+    }
+
+    .form-card-subtitle {
+        margin: 5px 0 0;
+        color: #718096;
+        font-size: 13px;
+    }
+
+    .form-card-body {
+        padding: 30px;
+    }
+
+
+    /* ==============================
+           FORM LABELS
+           ============================== */
+
+    .form-label-custom {
+        display: block;
+        margin-bottom: 8px;
+        color: #354052;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .required-star {
+        color: #dc3545;
+    }
+
+
+    /* ==============================
+           FORM CONTROLS
+           ============================== */
+
+    .custom-control {
+        border: 1px solid #dfe5ec;
+        border-radius: 10px;
+        min-height: 46px;
+        padding: 10px 14px;
+        color: #354052;
+        font-size: 14px;
+        background: #ffffff;
+        transition: all 0.2s ease;
+    }
+
+        .custom-control:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.12);
+        }
+
+    select.custom-control {
+        cursor: pointer;
+    }
+
+
+    /* ==============================
+           BALANCE INPUT
+           ============================== */
+
+    .balance-wrapper {
+        position: relative;
+    }
+
+    .balance-symbol {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #718096;
+        font-weight: 600;
+        z-index: 2;
+    }
+
+    .balance-input {
+        padding-left: 34px;
+    }
+
+
+    /* ==============================
+           ACCOUNT TYPE CARDS
+           ============================== */
+
+    .account-type-options {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .account-type-option {
+        flex: 1;
+        min-width: 180px;
+        position: relative;
+    }
+
+        .account-type-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+    .account-type-label {
+        display: block;
+        border: 1px solid #dfe5ec;
+        border-radius: 12px;
+        padding: 15px 18px;
+        cursor: pointer;
+        background: #ffffff;
+        transition: all 0.2s ease;
+    }
+
+        .account-type-label:hover {
+            border-color: #86b7fe;
+            background: #f9fbff;
+        }
+
+    .account-type-name {
+        display: block;
+        color: #182433;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    .account-type-description {
+        display: block;
+        color: #718096;
+        font-size: 12px;
+        margin-top: 4px;
+    }
+
+    .account-type-option input:checked + .account-type-label {
+        border-color: #0d6efd;
+        background: #eef5ff;
+        box-shadow: 0 0 0 1px #0d6efd;
+    }
+
+
+    /* ==============================
+           ACTIVE ACCOUNT
+           ============================== */
+
+    .active-card {
+        background: #f8fafc;
+        border: 1px solid #e7ebf0;
+        border-radius: 12px;
+        padding: 15px 17px;
+    }
+
+        .active-card .form-check-input {
+            width: 20px;
+            height: 20px;
+            margin-top: 0;
+            cursor: pointer;
+        }
+
+            .active-card .form-check-input:checked {
+                background-color: #198754;
+                border-color: #198754;
+            }
+
+        .active-card label {
+            margin-left: 8px;
+            color: #354052;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+    .active-description {
+        display: block;
+        color: #718096;
+        font-size: 12px;
+        margin-left: 29px;
+        margin-top: 3px;
+    }
+
+
+    /* ==============================
+           VALIDATION
+           ============================== */
+
+    .validation-summary {
+        border-radius: 10px;
+        margin-bottom: 25px;
+    }
+
+    .field-validation {
+        display: block;
+        margin-top: 6px;
+        font-size: 12px;
+    }
+
+
+    /* ==============================
+           BUTTONS
+           ============================== */
+
+    .form-actions {
+        border-top: 1px solid #edf0f4;
+        margin-top: 30px;
+        padding-top: 24px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .create-btn {
+        border: none;
+        border-radius: 9px;
+        padding: 10px 22px;
+        font-weight: 600;
+        box-shadow: 0 5px 15px rgba(13, 110, 253, 0.16);
+        transition: all 0.2s ease;
+    }
+
+        .create-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(13, 110, 253, 0.22);
+        }
+
+    .back-btn {
+        border-radius: 9px;
+        padding: 10px 20px;
+        font-weight: 600;
+    }
+
+
+    /* ==============================
+           INFO CARD
+           ============================== */
+
+    .info-card {
+        background: #f8fafc;
+        border: 1px solid #e7ebf0;
+        border-radius: 16px;
+        padding: 22px;
+        height: 100%;
+    }
+
+    .info-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        background: #eef5ff;
+        color: #0d6efd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 16px;
+    }
+
+    .info-card h4 {
+        color: #182433;
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .info-card p {
+        color: #718096;
+        font-size: 13px;
+        line-height: 1.6;
+        margin-bottom: 18px;
+    }
+
+    .info-list {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+        .info-list li {
+            color: #596579;
+            font-size: 13px;
+            padding: 9px 0;
+            border-bottom: 1px solid #e7ebf0;
+        }
+
+            .info-list li:last-child {
+                border-bottom: none;
+            }
+
+        .info-list span {
+            color: #198754;
+            font-weight: 700;
+            margin-right: 7px;
+        }
+
+</style>
+
+
+<div class="create-page">
+
+    <!-- ==============================
+         PAGE HEADER
+         ============================== -->
+
+    <div class="create-header">
+
+        <h1>
+            Create Bank Account
+        </h1>
+
+        <p>
+            Create a new bank account and assign it to a customer.
+        </p>
+
+    </div>
+
+
+    <div class="row g-4">
+
+
+        <!-- ==============================
+             FORM
+             ============================== -->
+
+        <div class="col-lg-8">
+
+            <div class="form-card">
+
+
+                <!-- FORM HEADER -->
+
+                <div class="form-card-header">
+
+                    <h2 class="form-card-title">
+                        Account Information
+                    </h2>
+
+                    <p class="form-card-subtitle">
+                        Enter the details required to create the bank account.
+                    </p>
+
+                </div>
+
+
+                <!-- FORM BODY -->
+
+                <div class="form-card-body">
+
+                    <form asp-action="Create"
+                          method="post">
+
+                        <div asp-validation-summary="All"
+                             class="alert alert-danger validation-summary">
+                        </div>
+
+
+                        <!-- ==============================
+                             ACCOUNT NUMBER
+                             ============================== -->
+
+                        <div class="mb-4">
+
+                            <label asp-for="AccountNumber"
+                                   class="form-label-custom">
+
+                                Account Number
+
+                                <span class="required-star">
+                                    *
+                                </span>
+
+                            </label>
+
+                            <input asp-for="AccountNumber"
+                                   class="form-control custom-control"
+                                   placeholder="Enter account number"
+                                   autocomplete="off" />
+
+                            <span asp-validation-for="AccountNumber"
+                                  class="text-danger field-validation">
+                            </span>
+
+                        </div>
+
+
+                        <!-- ==============================
+                             ACCOUNT TYPE
+                             ============================== -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label-custom">
+
+                                Account Type
+
+                                <span class="required-star">
+                                    *
+                                </span>
+
+                            </label>
+
+
+                            <div class="account-type-options">
+
+
+                                <!-- SAVINGS -->
+
+                                <div class="account-type-option">
+
+                                    <input asp-for="AccountType"
+                                           type="radio"
+                                           value="Savings"
+                                           id="Savings" />
+
+                                    <label for="Savings"
+                                           class="account-type-label">
+
+                                        <span class="account-type-name">
+                                            Savings Account
+                                        </span>
+
+                                        <span class="account-type-description">
+                                            Suitable for personal savings
+                                        </span>
+
+                                    </label>
+
+                                </div>
+
+
+                                <!-- CURRENT -->
+
+                                <div class="account-type-option">
+
+                                    <input asp-for="AccountType"
+                                           type="radio"
+                                           value="Current"
+                                           id="Current" />
+
+                                    <label for="Current"
+                                           class="account-type-label">
+
+                                        <span class="account-type-name">
+                                            Current Account
+                                        </span>
+
+                                        <span class="account-type-description">
+                                            Suitable for regular transactions
+                                        </span>
+
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+
+                            <span asp-validation-for="AccountType"
+                                  class="text-danger field-validation">
+                            </span>
+
+                        </div>
+
+
+                        <!-- ==============================
+                             BALANCE
+                             ============================== -->
+
+                        <div class="mb-4">
+
+                            <label asp-for="Balance"
+                                   class="form-label-custom">
+
+                                Opening Balance
+
+                                <span class="required-star">
+                                    *
+                                </span>
+
+                            </label>
+
+
+                            <div class="balance-wrapper">
+
+                                <span class="balance-symbol">
+                                    ₹
+                                </span>
+
+                                <input asp-for="Balance"
+                                       class="form-control custom-control balance-input"
+                                       type="number"
+                                       step="0.01"
+                                       min="0"
+                                       placeholder="0.00" />
+
+                            </div>
+
+
+                            <span asp-validation-for="Balance"
+                                  class="text-danger field-validation">
+                            </span>
+
+                        </div>
+
+
+                        <!-- ==============================
+                             CUSTOMER
+                             ============================== -->
+
+                        <div class="mb-4">
+
+                            <label asp-for="CustomerId"
+                                   class="form-label-custom">
+
+                                Customer
+
+                                <span class="required-star">
+                                    *
+                                </span>
+
+                            </label>
+
+
+                            <select asp-for="CustomerId"
+                                    class="form-select custom-control">
+
+                                <option value="">
+                                    -- Select Customer --
+                                </option>
+
+
+                                @if (ViewBag.Customers != null)
+                                {
+                                    foreach (var customer in ViewBag.Customers)
+                                    {
+                                        <option value="@customer.CustomerId">
+
+                                            @customer.FullName
+                                            -
+                                            @customer.Email
+
+                                        </option>
+                                    }
+                                }
+
+                            </select>
+
+
+                            <span asp-validation-for="CustomerId"
+                                  class="text-danger field-validation">
+                            </span>
+
+                        </div>
+
+
+                        <!-- ==============================
+                             ACTIVE ACCOUNT
+                             ============================== -->
+
+                        <div class="active-card">
+
+                            <div class="form-check d-flex align-items-start">
+
+                                <input asp-for="IsActive"
+                                       class="form-check-input"
+                                       id="IsActive" />
+
+                                <div>
+
+                                    <label for="IsActive">
+
+                                        Active Account
+
+                                    </label>
+
+                                    <span class="active-description">
+
+                                        The account will be available for banking transactions immediately.
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ==============================
+                             ACTION BUTTONS
+                             ============================== -->
+
+                        <div class="form-actions">
+
+                            <button type="submit"
+                                    class="btn btn-primary create-btn">
+
+                                Create Account
+
+                            </button>
+
+
+                            <a asp-action="Index"
+                               class="btn btn-secondary back-btn">
+
+                                Back to Accounts
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==============================
+             INFORMATION PANEL
+             ============================== -->
+
+        <div class="col-lg-4">
+
+            <div class="info-card">
+
+                <div class="info-icon">
+                    ₹
+                </div>
+
+                <h4>
+                    Account Setup
+                </h4>
+
+                <p>
+                    Make sure the account information is correct before creating the account.
+                </p>
+
+
+                <ul class="info-list">
+
+                    <li>
+                        <span>✓</span>
+                        Account number should be unique.
+                    </li>
+
+                    <li>
+                        <span>✓</span>
+                        Select the appropriate account type.
+                    </li>
+
+                    <li>
+                        <span>✓</span>
+                        Enter the opening balance.
+                    </li>
+
+                    <li>
+                        <span>✓</span>
+                        Assign the account to a customer.
+                    </li>
+
+                    <li>
+                        <span>✓</span>
+                        Active accounts can be used for transactions.
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}

@@ -1,0 +1,275 @@
+﻿@model OnlineBankingApplication.DTOs.SubscriptionDto
+
+@{
+    ViewData["Title"] = "Subscription Details";
+}
+
+<div class="container-fluid px-0">
+
+    <div class="mb-4">
+
+        <h1 class="fw-bold mb-1">
+            Subscription Details
+        </h1>
+
+        <p class="text-muted">
+            View subscription and recurring payment information.
+        </p>
+
+    </div>
+
+
+    <div class="details-card">
+
+        <div class="details-header">
+
+            <div class="merchant-icon">
+
+                @(string.IsNullOrWhiteSpace(Model.MerchantName)
+                    ? "?"
+                    : Model.MerchantName.Substring(0, 1).ToUpper())
+
+            </div>
+
+            <div>
+
+                <h3>
+                    @Model.MerchantName
+                </h3>
+
+                <p>
+                    @(Model.Category ?? "Subscription")
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="details-grid">
+
+            <div>
+
+                <span>Subscription ID</span>
+
+                <strong>
+                    @Model.SubscriptionId
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>Amount</span>
+
+                <strong>
+                    ₹@Model.Amount.ToString("N2")
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>Billing Cycle</span>
+
+                <strong>
+                    @Model.BillingCycle
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>Next Payment</span>
+
+                <strong>
+                    @Model.NextPaymentDate.ToString("dd MMM yyyy")
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>Customer</span>
+
+                <strong>
+                    @Model.CustomerName
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>Customer ID</span>
+
+                <strong>
+                    @Model.CustomerId
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>Bank Account</span>
+
+                <strong>
+                    @Model.BankAccountNumber
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>Bank Account ID</span>
+
+                <strong>
+                    @Model.BankAccountId
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>Status</span>
+
+                @if (Model.Status == "Active")
+                {
+                    <strong class="status-active">
+                        Active
+                    </strong>
+                }
+                else
+                {
+                    <strong class="status-inactive">
+                        @Model.Status
+                    </strong>
+                }
+
+            </div>
+
+
+            <div>
+
+                <span>Created Date</span>
+
+                <strong>
+                    @Model.CreatedDate.ToString("dd MMM yyyy")
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="mt-4">
+
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-action="Edit"
+                   asp-route-id="@Model.SubscriptionId"
+                   class="btn btn-primary">
+
+                    Edit
+
+                </a>
+
+                <a asp-action="Delete"
+                   asp-route-id="@Model.SubscriptionId"
+                   class="btn btn-danger">
+
+                    Delete
+
+                </a>
+            }
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+
+                Back to Subscriptions
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    .details-card {
+        background: white;
+        border: 1px solid #e9e2ff;
+        border-radius: 18px;
+        padding: 30px;
+        max-width: 900px;
+        box-shadow: 0 8px 25px rgba(90,60,150,.06);
+    }
+
+    .details-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding-bottom: 25px;
+        border-bottom: 1px solid #eeeaf7;
+    }
+
+        .details-header h3 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .details-header p {
+            margin: 5px 0 0;
+            color: #77738a;
+        }
+
+    .merchant-icon {
+        width: 55px;
+        height: 55px;
+        border-radius: 15px;
+        background: #eee7ff;
+        color: #7047e8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .details-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+        margin-top: 25px;
+    }
+
+        .details-grid span {
+            display: block;
+            color: #77738a;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .details-grid strong {
+            color: #17213d;
+        }
+
+    .status-active {
+        color: #218653 !important;
+    }
+
+    .status-inactive {
+        color: #c94a4a !important;
+    }
+
+</style>

@@ -1,0 +1,296 @@
+﻿@model OnlineBankingApplication.DTOs.CardDto
+
+@{
+    ViewData["Title"] = "Card Details";
+}
+
+<div class="container-fluid px-0">
+
+    <div class="mb-4">
+        <a asp-action="Index"
+           class="text-decoration-none">
+            ← Back to Cards
+        </a>
+
+        <h1 class="fw-bold mt-3 mb-1">
+            Card Details
+        </h1>
+
+        <p class="text-muted">
+            View complete information about this card.
+        </p>
+    </div>
+
+    <div class="card details-card">
+
+        <div class="card-header-custom">
+            <div>
+                <h4>Card Information</h4>
+                <p>Details of the selected banking card.</p>
+            </div>
+
+            @if (Model.IsActive)
+            {
+                <span class="badge bg-success">
+                    Active
+                </span>
+            }
+            else
+            {
+                <span class="badge bg-secondary">
+                    Inactive
+                </span>
+            }
+        </div>
+
+        <div class="card-body p-4">
+
+            <div class="bank-card mb-4">
+
+                <div class="card-top">
+                    <span class="network">
+                        @Model.CardNetwork
+                    </span>
+
+                    <span>
+                        @Model.CardType
+                    </span>
+                </div>
+
+                <div class="card-chip">
+                    ▣
+                </div>
+
+                <div class="card-number">
+                    •••• •••• •••• @Model.LastFourDigits
+                </div>
+
+                <div class="card-bottom">
+
+                    <div>
+                        <small>Card Holder</small>
+                        <strong>
+                            @Model.CardHolderName
+                        </strong>
+                    </div>
+
+                    <div>
+                        <small>Expires</small>
+                        <strong>
+                            @Model.ExpiryMonth.ToString("00")/@Model.ExpiryYear
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="details-list">
+
+                <div class="detail-row">
+                    <span>Card ID</span>
+                    <strong>@Model.CardId</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Card Network</span>
+                    <strong>@Model.CardNetwork</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Card Type</span>
+                    <strong>@Model.CardType</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Last Four Digits</span>
+                    <strong>•••• @Model.LastFourDigits</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Card Holder Name</span>
+                    <strong>@Model.CardHolderName</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Expiry Date</span>
+                    <strong>
+                        @Model.ExpiryMonth.ToString("00")/@Model.ExpiryYear
+                    </strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Bank Account ID</span>
+                    <strong>@Model.BankAccountId</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Bank Account Number</span>
+                    <strong>
+                        @Model.BankAccountNumber
+                    </strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Status</span>
+
+                    @if (Model.IsActive)
+                    {
+                        <strong class="text-success">
+                            Active
+                        </strong>
+                    }
+                    else
+                    {
+                        <strong class="text-secondary">
+                            Inactive
+                        </strong>
+                    }
+                </div>
+
+                <div class="detail-row">
+                    <span>Created Date</span>
+                    <strong>
+                        @Model.CreatedDate.ToString("dd MMM yyyy hh:mm tt")
+                    </strong>
+                </div>
+
+            </div>
+
+            <hr class="my-4" />
+
+            <div class="d-flex gap-2">
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Edit"
+                       asp-route-id="@Model.CardId"
+                       class="btn btn-warning">
+                        Edit Card
+                    </a>
+
+                    <a asp-action="Delete"
+                       asp-route-id="@Model.CardId"
+                       class="btn btn-danger">
+                        Delete Card
+                    </a>
+                }
+
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+                    Back to Cards
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    .details-card {
+        background: white;
+        border: 1px solid #e9e2ff;
+        border-radius: 18px;
+        max-width: 950px;
+        box-shadow: 0 8px 25px rgba(90,60,150,.06);
+        overflow: hidden;
+    }
+
+    .card-header-custom {
+        padding: 22px 25px;
+        border-bottom: 1px solid #eeeaf7;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .card-header-custom h4 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .card-header-custom p {
+            margin: 5px 0 0;
+            color: #77738a;
+            font-size: 13px;
+        }
+
+    .bank-card {
+        background: linear-gradient(135deg, #5f35d9, #9a6cf2);
+        color: white;
+        border-radius: 18px;
+        padding: 25px;
+        max-width: 500px;
+        min-height: 230px;
+        box-shadow: 0 12px 25px rgba(112,71,232,.2);
+    }
+
+    .card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .network {
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .card-chip {
+        margin-top: 30px;
+        font-size: 27px;
+    }
+
+    .card-number {
+        margin-top: 15px;
+        font-size: 20px;
+        letter-spacing: 2px;
+        font-weight: 600;
+    }
+
+    .card-bottom {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 25px;
+    }
+
+        .card-bottom small {
+            display: block;
+            font-size: 9px;
+            opacity: .7;
+            text-transform: uppercase;
+        }
+
+        .card-bottom strong {
+            display: block;
+            margin-top: 4px;
+            font-size: 13px;
+        }
+
+    .details-list {
+        max-width: 800px;
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 0;
+        border-bottom: 1px solid #eeeaf7;
+    }
+
+        .detail-row span {
+            color: #77738a;
+            font-size: 14px;
+        }
+
+        .detail-row strong {
+            color: #29263c;
+            font-size: 14px;
+        }
+
+</style>

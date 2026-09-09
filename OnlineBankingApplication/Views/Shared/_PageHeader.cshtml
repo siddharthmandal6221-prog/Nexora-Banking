@@ -1,0 +1,34 @@
+﻿@{
+    var title = ViewData["PartialTitle"]?.ToString() ?? "";
+    var description = ViewData["PartialDescription"]?.ToString() ?? "";
+    var actionText = ViewData["PartialActionText"]?.ToString();
+    var actionController = ViewData["PartialActionController"]?.ToString();
+    var actionName = ViewData["PartialActionName"]?.ToString();
+}
+
+<div class="page-header">
+
+    <div>
+        <h1>@title</h1>
+
+        @if (!string.IsNullOrWhiteSpace(description))
+        {
+            <p>
+                @description
+            </p>
+        }
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(actionText) &&
+         !string.IsNullOrWhiteSpace(actionName))
+    {
+        <a asp-controller="@actionController"
+           asp-action="@actionName"
+           class="primary-button">
+
+            @actionText
+
+        </a>
+    }
+
+</div>

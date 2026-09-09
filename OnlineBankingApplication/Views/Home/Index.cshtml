@@ -1,0 +1,460 @@
+@{
+    ViewData["Title"] = "Nexora Digital Banking";
+}
+
+<div class="enterprise-home">
+
+    <!-- HERO SECTION -->
+    <section class="ent-hero-section mb-4">
+        <div class="ent-hero-backdrop"></div>
+        <div class="ent-hero-glow-1"></div>
+        <div class="ent-hero-glow-2"></div>
+
+        <div class="ent-hero-grid">
+            <!-- Left Hero Content -->
+            <div class="ent-hero-content">
+                <div class="ent-badge mb-3">
+                    <i class="bi bi-bank2 me-1"></i>
+                    <span>NEXORA YONO DIGITAL BANK</span>
+                </div>
+
+                <h1 class="ent-hero-title mb-3">
+                    Smart Online Banking
+                    <span class="ent-gradient-text">Built for Everyday Convenience</span>
+                </h1>
+
+                <p class="ent-hero-desc mb-4">
+                    Open an account to manage your funds, transfer money instantly, pay utility bills, track debit cards, and get 24/7 assistance — all in one secure portal.
+                </p>
+
+                <div class="ent-hero-actions d-flex flex-wrap align-items-center gap-3">
+                    <a asp-area="Identity" asp-page="/Account/Login" class="ent-btn-primary">
+                        <i class="bi bi-box-arrow-in-right me-1"></i>
+                        <span>Sign In</span>
+                    </a>
+
+                    <a asp-area="Identity" asp-page="/Account/Register" class="ent-btn-secondary">
+                        <i class="bi bi-person-plus me-1 text-cyan"></i>
+                        <span>Register Account</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Visual Card Component -->
+            <div class="ent-hero-visual">
+                <div class="ent-card-wrapper">
+                    <div class="ent-credit-card">
+                        <div class="ent-card-header">
+                            <div class="ent-card-logo">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#00D2FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2 17L12 22L22 17" stroke="#00D2FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2 12L12 17L22 12" stroke="#FFB703" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <span class="ent-card-brand">NEXORA DIGITAL</span>
+                        </div>
+
+                        <div class="ent-card-chip-row">
+                            <div class="ent-emv-chip">
+                                <i class="bi bi-cpu"></i>
+                            </div>
+                            <i class="bi bi-wifi fs-4 opacity-75"></i>
+                        </div>
+
+                        <div class="ent-card-number">
+                            •••• &nbsp; •••• &nbsp; •••• &nbsp; 2026
+                        </div>
+
+                        <div class="ent-card-footer">
+                            <div>
+                                <small>ACCOUNT HOLDER</small>
+                                <strong>VALUED CUSTOMER</strong>
+                            </div>
+                            <div>
+                                <small>PORTAL</small>
+                                <strong>ONLINE ACCESS</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHAT YOU CAN DO (Feature Showcase for First-Time Users) -->
+    <section class="ent-services-section">
+        <div class="ent-section-header">
+            <span class="ent-section-tag">PORTAL FEATURES</span>
+            <h2>What You Can Do with Nexora</h2>
+            <p>Everything you need to manage your personal finances effortlessly.</p>
+        </div>
+
+        <div class="ent-grid">
+            <div class="ent-service-card">
+                <div class="ent-service-icon-box">
+                    <i class="bi bi-wallet2"></i>
+                </div>
+                <h3>Manage Accounts & Balances</h3>
+                <p>View your checking and savings account balances, account numbers, and status in real-time.</p>
+            </div>
+
+            <div class="ent-service-card">
+                <div class="ent-service-icon-box">
+                    <i class="bi bi-arrow-left-right"></i>
+                </div>
+                <h3>Instant Money Transfers</h3>
+                <p>Send funds instantly between your accounts or to added beneficiaries with transaction logs.</p>
+            </div>
+
+            <div class="ent-service-card">
+                <div class="ent-service-icon-box">
+                    <i class="bi bi-receipt-cutoff"></i>
+                </div>
+                <h3>Pay Utility Bills</h3>
+                <p>Pay electricity, water, internet, and consumer bills directly online with instant confirmations.</p>
+            </div>
+
+            <div class="ent-service-card">
+                <div class="ent-service-icon-box">
+                    <i class="bi bi-person-lines-fill"></i>
+                </div>
+                <h3>Save Beneficiaries</h3>
+                <p>Store your frequent transfer contacts for quick, one-click future money transfers.</p>
+            </div>
+
+            <div class="ent-service-card">
+                <div class="ent-service-icon-box">
+                    <i class="bi bi-journal-text"></i>
+                </div>
+                <h3>Request Cheque Books</h3>
+                <p>Submit online requests for new cheque books and track administrator verification status.</p>
+            </div>
+
+            <div class="ent-service-card">
+                <div class="ent-service-icon-box">
+                    <i class="bi bi-cpu"></i>
+                </div>
+                <h3>Cards & AI Banking Assistant</h3>
+                <p>Keep track of payment cards, active subscriptions, and ask our AI assistant banking questions.</p>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<style>
+    .enterprise-home {
+        width: 100%;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .ent-hero-section {
+        position: relative;
+        background: linear-gradient(135deg, #07172b 0%, #0a2540 60%, #103863 100%);
+        border-radius: 20px;
+        padding: 56px 40px;
+        color: #ffffff;
+        overflow: hidden;
+        box-shadow: 0 12px 32px rgba(7, 23, 43, 0.18);
+    }
+
+    .ent-hero-backdrop {
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgba(0, 210, 255, 0.08) 1px, transparent 1px);
+        background-size: 24px 24px;
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .ent-hero-glow-1 {
+        position: absolute;
+        top: -100px;
+        right: -100px;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(0, 210, 255, 0.15) 0%, rgba(0,0,0,0) 70%);
+        pointer-events: none;
+    }
+
+    .ent-hero-glow-2 {
+        position: absolute;
+        bottom: -100px;
+        left: -100px;
+        width: 350px;
+        height: 350px;
+        background: radial-gradient(circle, rgba(0, 82, 204, 0.2) 0%, rgba(0,0,0,0) 70%);
+        pointer-events: none;
+    }
+
+    .ent-hero-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 36px;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+    }
+
+    .ent-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 14px;
+        border-radius: 20px;
+        background: rgba(0, 210, 255, 0.12);
+        border: 1px solid rgba(0, 210, 255, 0.3);
+        color: #00d2ff;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.8px;
+    }
+
+    .ent-hero-title {
+        font-size: 40px;
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: -0.5px;
+        color: #ffffff;
+    }
+
+    .ent-gradient-text {
+        display: block;
+        background: linear-gradient(135deg, #00d2ff 0%, #60a5fa 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .ent-hero-desc {
+        color: #cbd5e1;
+        font-size: 15px;
+        line-height: 1.65;
+        max-width: 540px;
+    }
+
+    .ent-hero-actions {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .ent-btn-primary {
+        background: #0052cc;
+        color: #ffffff !important;
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 14px;
+        text-decoration: none !important;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 4px 14px rgba(0, 82, 204, 0.4);
+        transition: all 0.2s ease;
+    }
+
+    .ent-btn-primary:hover {
+        background: #003d99;
+        transform: translateY(-2px);
+    }
+
+    .ent-btn-secondary {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        color: #ffffff !important;
+        padding: 12px 22px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 14px;
+        text-decoration: none !important;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s ease;
+    }
+
+    .ent-btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: #ffffff;
+        transform: translateY(-2px);
+    }
+
+    .ent-hero-visual {
+        display: flex;
+        justify-content: center;
+    }
+
+    .ent-card-wrapper {
+        position: relative;
+        width: 320px;
+        height: 200px;
+    }
+
+    .ent-credit-card {
+        width: 320px;
+        height: 200px;
+        background: linear-gradient(135deg, #0f2b48 0%, #0052cc 100%);
+        border-radius: 16px;
+        padding: 22px;
+        color: #ffffff;
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transform: rotate(-2deg);
+        transition: transform 0.3s ease;
+    }
+
+    .ent-credit-card:hover {
+        transform: rotate(0deg) scale(1.02);
+    }
+
+    .ent-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .ent-card-logo {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .ent-card-brand {
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        color: #00d2ff;
+    }
+
+    .ent-card-chip-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .ent-emv-chip {
+        width: 38px;
+        height: 26px;
+        background: #fbbf24;
+        color: #78350f;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+    }
+
+    .ent-card-number {
+        font-family: monospace;
+        font-size: 15px;
+        letter-spacing: 2px;
+        margin-bottom: 16px;
+    }
+
+    .ent-card-footer {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .ent-card-footer small {
+        display: block;
+        font-size: 8px;
+        opacity: 0.7;
+    }
+
+    .ent-card-footer strong {
+        font-size: 10px;
+        letter-spacing: 0.5px;
+    }
+
+    /* SERVICES SECTION */
+    .ent-services-section {
+        padding: 40px 0 20px;
+    }
+
+    .ent-section-header {
+        text-align: center;
+        margin-bottom: 36px;
+    }
+
+    .ent-section-tag {
+        color: #0052cc;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+    }
+
+    .ent-section-header h2 {
+        font-size: 28px;
+        font-weight: 800;
+        color: #07172b;
+        margin: 6px 0 8px;
+    }
+
+    .ent-section-header p {
+        color: #64748b;
+        font-size: 14px;
+        margin: 0;
+    }
+
+    .ent-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .ent-service-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 28px 24px;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+    }
+
+    .ent-service-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 24px rgba(7, 23, 43, 0.08);
+        border-color: #cbd5e1;
+    }
+
+    .ent-service-icon-box {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: #eff6ff;
+        color: #0052cc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        margin-bottom: 16px;
+    }
+
+    .ent-service-card h3 {
+        font-size: 17px;
+        font-weight: 750;
+        color: #07172b;
+        margin-bottom: 8px;
+    }
+
+    .ent-service-card p {
+        color: #64748b;
+        font-size: 13px;
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    @@media (max-width: 992px) {
+        .ent-hero-grid, .ent-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

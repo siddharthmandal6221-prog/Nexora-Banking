@@ -1,0 +1,553 @@
+﻿@model OnlineBankingApplication.DTOs.BillPaymentDto
+@{
+    ViewData["Title"] = "Bill Payment Details";
+
+    var isSuccess = Model.Status == "Success";
+}
+
+<div class="container-fluid px-0">
+
+    <!-- Header -->
+
+    <div class="mb-4">
+
+        <a asp-action="Index"
+           class="back-link">
+
+            <i class="bi bi-arrow-left me-2"></i>
+            Back to Bill Payments
+
+        </a>
+
+        <div class="page-header mt-3">
+
+            <div>
+
+                <h1>
+                    Payment Details
+                </h1>
+
+                <p>
+                    Complete information about your bill payment.
+                </p>
+
+            </div>
+
+            @if (isSuccess)
+            {
+                <span class="success-badge">
+                    <i class="bi bi-check-circle me-1"></i>
+                    Successful
+                </span>
+            }
+            else
+            {
+                <span class="status-badge">
+                    @Model.Status
+                </span>
+            }
+
+        </div>
+
+    </div>
+
+
+    <!-- Receipt -->
+
+    <div class="receipt-card">
+
+        <!-- Receipt Header -->
+
+        <div class="receipt-header">
+
+            <div>
+
+                <span class="receipt-label">
+                    PAYMENT ID
+                </span>
+
+                <h2>
+                    #@Model.BillPaymentId
+                </h2>
+
+            </div>
+
+            <div class="receipt-icon">
+                <i class="bi bi-receipt"></i>
+            </div>
+
+        </div>
+
+
+        <!-- Amount -->
+
+        <div class="amount-section">
+
+            <span class="amount-label">
+                PAYMENT AMOUNT
+            </span>
+
+            <div class="payment-amount">
+                ₹@Model.Amount.ToString("N2")
+            </div>
+
+            <span class="bill-type">
+                <i class="bi bi-receipt me-1"></i>
+                @Model.BillType
+            </span>
+
+        </div>
+
+
+        <!-- Biller -->
+
+        <div class="biller-section">
+
+            <div class="biller-icon">
+
+                @if (Model.BillType == "Electricity")
+                {
+                    <i class="bi bi-lightning-charge"></i>
+                }
+                else if (Model.BillType == "Water")
+                {
+                    <i class="bi bi-droplet"></i>
+                }
+                else if (Model.BillType == "Gas")
+                {
+                    <i class="bi bi-fire"></i>
+                }
+                else if (Model.BillType == "Mobile")
+                {
+                    <i class="bi bi-phone"></i>
+                }
+                else if (Model.BillType == "Internet")
+                {
+                    <i class="bi bi-wifi"></i>
+                }
+                else
+                {
+                    <i class="bi bi-tv"></i>
+                }
+
+            </div>
+
+            <div>
+
+                <span class="field-label">
+                    BILLER
+                </span>
+
+                <h4>
+                    @Model.BillerName
+                </h4>
+
+                <span class="consumer-text">
+                    Consumer Number:
+                    @Model.ConsumerNumber
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- Payment Details -->
+
+        <div class="details-section">
+
+            <div class="detail-row">
+
+                <span class="detail-label">
+                    Bill Type
+                </span>
+
+                <span class="detail-value">
+                    @Model.BillType
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span class="detail-label">
+                    Consumer Number
+                </span>
+
+                <span class="detail-value">
+                    @Model.ConsumerNumber
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span class="detail-label">
+                    Bank Account
+                </span>
+
+                <span class="detail-value">
+                    @Model.BankAccountNumber
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span class="detail-label">
+                    Payment Date
+                </span>
+
+                <span class="detail-value">
+                    @Model.PaymentDate.ToString("dd MMM yyyy")
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span class="detail-label">
+                    Payment Time
+                </span>
+
+                <span class="detail-value">
+                    @Model.PaymentDate.ToString("hh:mm:ss tt")
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span class="detail-label">
+                    Status
+                </span>
+
+                <span class="detail-value">
+
+                    @if (isSuccess)
+                    {
+                        <span class="success-badge">
+                            <i class="bi bi-check-circle me-1"></i>
+                            Success
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="status-badge">
+                            @Model.Status
+                        </span>
+                    }
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- Footer -->
+
+        <div class="receipt-footer">
+
+            <div class="secure-info">
+
+                <i class="bi bi-shield-check"></i>
+
+                <div>
+
+                    <strong>
+                        Secure Payment
+                    </strong>
+
+                    <small>
+                        This payment has been securely recorded in your banking account.
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <a asp-action="Index"
+               class="primary-button">
+
+                <i class="bi bi-arrow-left me-2"></i>
+                Back to Payments
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    .back-link {
+        color: #7047e8;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+        .back-link:hover {
+            color: #5833c7;
+        }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .page-header h1 {
+            font-size: 34px;
+            font-weight: 750;
+            color: #17213d;
+            margin-bottom: 5px;
+        }
+
+        .page-header p {
+            color: #77738a;
+            margin: 0;
+        }
+
+    .receipt-card {
+        background: #ffffff;
+        border: 1px solid #e9e2ff;
+        border-radius: 22px;
+        max-width: 1000px;
+        margin: 0 auto;
+        overflow: hidden;
+        box-shadow: 0 12px 35px rgba(90, 60, 150, 0.08);
+    }
+
+    .receipt-header {
+        padding: 28px 35px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #eeeaf7;
+    }
+
+    .receipt-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #89859c;
+    }
+
+    .receipt-header h2 {
+        margin: 6px 0 0;
+        color: #17213d;
+        font-size: 26px;
+        font-weight: 750;
+    }
+
+    .receipt-icon {
+        width: 55px;
+        height: 55px;
+        border-radius: 15px;
+        background: #f0e9ff;
+        color: #7047e8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+    }
+
+    .amount-section {
+        text-align: center;
+        padding: 38px 20px;
+        background: #faf9ff;
+        border-bottom: 1px solid #eeeaf7;
+    }
+
+    .amount-label {
+        display: block;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #89859c;
+    }
+
+    .payment-amount {
+        font-size: 42px;
+        font-weight: 750;
+        color: #17213d;
+        margin: 8px 0 12px;
+    }
+
+    .bill-type {
+        display: inline-block;
+        background: #eee7ff;
+        color: #7047e8;
+        padding: 6px 13px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .biller-section {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding: 30px 35px;
+        border-bottom: 1px solid #eeeaf7;
+    }
+
+    .biller-icon {
+        width: 55px;
+        height: 55px;
+        border-radius: 15px;
+        background: #f0e9ff;
+        color: #7047e8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+    }
+
+    .field-label {
+        display: block;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        color: #918da4;
+        margin-bottom: 4px;
+    }
+
+    .biller-section h4 {
+        margin: 0 0 4px;
+        color: #29263c;
+        font-weight: 700;
+    }
+
+    .consumer-text {
+        color: #77738a;
+        font-size: 12px;
+    }
+
+    .details-section {
+        padding: 10px 35px;
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 19px 0;
+        border-bottom: 1px solid #f0edf7;
+    }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+    .detail-label {
+        color: #77738a;
+        font-size: 14px;
+    }
+
+    .detail-value {
+        color: #29263c;
+        font-size: 14px;
+        font-weight: 650;
+    }
+
+    .success-badge,
+    .status-badge {
+        padding: 7px 12px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .success-badge {
+        background: #e8f8ef;
+        color: #16834b;
+    }
+
+    .status-badge {
+        background: #fff1dd;
+        color: #a66a00;
+    }
+
+    .receipt-footer {
+        padding: 25px 35px;
+        background: #faf9ff;
+        border-top: 1px solid #eeeaf7;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .secure-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+        .secure-info > i {
+            font-size: 25px;
+            color: #7047e8;
+        }
+
+        .secure-info strong {
+            display: block;
+            font-size: 13px;
+            color: #29263c;
+        }
+
+        .secure-info small {
+            display: block;
+            color: #8a869c;
+            font-size: 11px;
+            margin-top: 3px;
+        }
+
+    .primary-button {
+        display: inline-flex;
+        align-items: center;
+        background: linear-gradient(135deg, #7047e8, #8c65ee);
+        color: white;
+        text-decoration: none;
+        border-radius: 10px;
+        padding: 11px 18px;
+        font-size: 13px;
+        font-weight: 650;
+    }
+
+        .primary-button:hover {
+            color: white;
+            transform: translateY(-1px);
+        }
+
+    @@media (max-width: 768px) {
+
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .receipt-header,
+        .receipt-footer {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .payment-amount {
+            font-size: 34px;
+        }
+    }
+
+</style>

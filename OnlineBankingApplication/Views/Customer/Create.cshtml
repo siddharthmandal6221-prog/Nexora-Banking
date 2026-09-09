@@ -1,0 +1,89 @@
+@model OnlineBankingApplication.DTOs.CustomerDto
+
+@{
+    ViewData["Title"] = "Add Customer";
+
+    var users = ViewBag.Users
+        as IEnumerable<OnlineBankingApplication.Models.ApplicationUser>
+        ?? Enumerable.Empty<OnlineBankingApplication.Models.ApplicationUser>();
+}
+
+<div class="page-header">
+    <div>
+        <h1>
+            <i class="bi bi-person-plus-fill me-2 text-cyan"></i>Add Customer
+        </h1>
+        <p>Create a customer profile and link it to an Identity user.</p>
+    </div>
+</div>
+
+<div class="dashboard-card" style="max-width: 900px; margin: 0 auto;">
+
+    <div class="alert alert-info border-0 bg-light text-dark mb-4">
+        <i class="bi bi-info-circle-fill me-2 text-primary"></i>
+        Select an existing Identity user. Each Identity user can have only one customer profile.
+    </div>
+
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+
+        <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+        <div class="row g-3">
+            <div class="col-12">
+                <label asp-for="ApplicationUserId" class="form-label fw-semibold text-secondary small text-uppercase">Identity User</label>
+                <select asp-for="ApplicationUserId" class="form-select">
+                    <option value="">-- Select Identity User --</option>
+                    @foreach (var user in users)
+                    {
+                        <option value="@user.Id">
+                            @(string.IsNullOrWhiteSpace(user.FullName)
+                                ? user.UserName
+                                : $"{user.FullName} - {user.Email}")
+                        </option>
+                    }
+                </select>
+                <span asp-validation-for="ApplicationUserId" class="text-danger small"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="FullName" class="form-label fw-semibold text-secondary small text-uppercase"></label>
+                <input asp-for="FullName" class="form-control" placeholder="Enter full name" />
+                <span asp-validation-for="FullName" class="text-danger small"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Email" class="form-label fw-semibold text-secondary small text-uppercase"></label>
+                <input asp-for="Email" class="form-control" placeholder="Enter email address" />
+                <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="PhoneNumber" class="form-label fw-semibold text-secondary small text-uppercase"></label>
+                <input asp-for="PhoneNumber" class="form-control" placeholder="Enter phone number" />
+                <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Address" class="form-label fw-semibold text-secondary small text-uppercase"></label>
+                <input asp-for="Address" class="form-control" placeholder="Enter residential address" />
+                <span asp-validation-for="Address" class="text-danger small"></span>
+            </div>
+        </div>
+
+        <div class="d-flex gap-2 mt-4 pt-2">
+            <button type="submit" class="btn btn-yono-primary">
+                <i class="bi bi-check-circle-fill me-1"></i>Create Customer
+            </button>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

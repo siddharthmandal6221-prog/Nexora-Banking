@@ -1,0 +1,70 @@
+@model OnlineBankingApplication.DTOs.BankAccountDto
+
+@{
+    ViewData["Title"] = "Bank Account Details";
+}
+
+<h1>Bank Account Details</h1>
+
+<div class="card">
+    <div class="card-body">
+
+        <dl class="row">
+
+            <dt class="col-sm-3">
+                Account ID
+            </dt>
+            <dd class="col-sm-9">
+                @Model.BankAccountId
+            </dd>
+
+            <dt class="col-sm-3">
+                Account Number
+            </dt>
+            <dd class="col-sm-9">
+                @Model.AccountNumber
+            </dd>
+
+            <dt class="col-sm-3">
+                Account Type
+            </dt>
+            <dd class="col-sm-9">
+                @Model.AccountType
+            </dd>
+
+            <dt class="col-sm-3">
+                Balance
+            </dt>
+            <dd class="col-sm-9">
+                ₹@Model.Balance.ToString("N2")
+            </dd>
+
+            <dt class="col-sm-3">
+                Customer ID
+            </dt>
+            <dd class="col-sm-9">
+                @Model.CustomerId
+            </dd>
+
+            <dt class="col-sm-3">
+                Status
+            </dt>
+            <dd class="col-sm-9">
+                @(Model.IsActive ? "Active" : "Inactive")
+            </dd>
+
+            <dt class="col-sm-3">
+                Created Date
+            </dt>
+            <dd class="col-sm-9">
+                @(Model.CreatedDate != default && Model.CreatedDate.Year >= 2000 ? Model.CreatedDate.ToString("dd MMM yyyy hh:mm tt") : DateTime.Now.ToString("dd MMM yyyy hh:mm tt"))
+            </dd>
+
+        </dl>
+
+        <a asp-action="Index" class="btn btn-secondary">
+            Back to List
+        </a>
+
+    </div>
+</div>

@@ -1,0 +1,381 @@
+@model OnlineBankingApplication.ViewModels.TransactionHistoryViewModel
+
+@{
+    ViewData["Title"] = "Transaction History";
+}
+
+<div class="container-fluid px-0">
+
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold mb-1" style="color: var(--nexora-text-heading); font-size: 30px;">
+                Transaction History
+            </h1>
+            <p class="text-muted m-0" style="font-size: 14px;">
+                View and filter your digital banking transaction logs.
+            </p>
+        </div>
+
+        <a asp-controller="Transaction"
+           asp-action="Create"
+           class="btn-primary">
+            <i class="bi bi-arrow-left-right me-1"></i> Make Transaction
+        </a>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-4">
+            <div class="summary-box p-4 d-flex align-items-center gap-3">
+                <div class="stat-icon-badge" style="width: 48px; height: 48px; font-size: 20px;">
+                    <i class="bi bi-list-ul"></i>
+                </div>
+
+                <div>
+                    <span class="text-muted fw-semibold d-block mb-1" style="font-size: 13px;">Total Transactions</span>
+                    <h2 class="fw-bold fs-3 text-dark m-0">@Model.TransactionCount</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="summary-box p-4 d-flex align-items-center gap-3">
+                <div class="stat-icon-badge" style="width: 48px; height: 48px; font-size: 20px; background: #fee2e2; color: #b91c1c;">
+                    <i class="bi bi-arrow-up-right"></i>
+                </div>
+
+                <div>
+                    <span class="text-muted fw-semibold d-block mb-1" style="font-size: 13px;">Total Outgoing</span>
+                    <h2 class="fw-bold fs-3 text-danger m-0">₹@Model.TotalOutgoing.ToString("N2")</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="summary-box p-4 d-flex align-items-center gap-3">
+                <div class="stat-icon-badge" style="width: 48px; height: 48px; font-size: 20px; background: #dcfce7; color: #15803d;">
+                    <i class="bi bi-arrow-down-left"></i>
+                </div>
+
+                <div>
+                    <span class="text-muted fw-semibold d-block mb-1" style="font-size: 13px;">Total Incoming</span>
+                    <h2 class="fw-bold fs-3 text-success m-0">₹@Model.TotalIncoming.ToString("N2")</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Filters Card -->
+    <div class="section-card mb-4 p-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <div>
+                <h5 class="fw-bold mb-1 text-dark fs-6">
+                    <i class="bi bi-funnel text-primary me-2"></i>
+                    Filter Transactions
+                </h5>
+
+                <small class="text-muted">
+                    Narrow down transaction logs by type, status, or date range.
+                </small>
+            </div>
+
+            <a asp-action="Index"
+               class="btn btn-outline-secondary btn-sm">
+                Clear Filters
+            </a>
+
+        </div>
+
+        <form asp-action="Index"
+              method="get">
+
+            <div class="row g-3">
+
+                <!-- Transaction Type -->
+                <div class="col-md-3">
+
+                    <label class="form-label fw-bold text-dark" style="font-size: 13px;">
+                        Transaction Type
+                    </label>
+
+                    <select name="transactionType"
+                            class="form-select">
+
+                        <option value="">
+                            All Types
+                        </option>
+
+                        @if (Model.TransactionType == "Transfer")
+                        {
+                            <option value="Transfer" selected>Transfer</option>
+                        }
+                        else
+                        {
+                            <option value="Transfer">Transfer</option>
+                        }
+
+                        @if (Model.TransactionType == "NEFT")
+                        {
+                            <option value="NEFT" selected>NEFT</option>
+                        }
+                        else
+                        {
+                            <option value="NEFT">NEFT</option>
+                        }
+
+                        @if (Model.TransactionType == "IMPS")
+                        {
+                            <option value="IMPS" selected>IMPS</option>
+                        }
+                        else
+                        {
+                            <option value="IMPS">IMPS</option>
+                        }
+
+                        @if (Model.TransactionType == "UPI")
+                        {
+                            <option value="UPI" selected>UPI</option>
+                        }
+                        else
+                        {
+                            <option value="UPI">UPI</option>
+                        }
+
+                    </select>
+
+                </div>
+
+                <!-- Status -->
+                <div class="col-md-3">
+
+                    <label class="form-label fw-bold text-dark" style="font-size: 13px;">
+                        Status
+                    </label>
+
+                    <select name="status"
+                            class="form-select">
+
+                        <option value="">
+                            All Statuses
+                        </option>
+
+                        @if (Model.Status == "Success")
+                        {
+                            <option value="Success" selected>Success</option>
+                        }
+                        else
+                        {
+                            <option value="Success">Success</option>
+                        }
+
+                        @if (Model.Status == "Pending")
+                        {
+                            <option value="Pending" selected>Pending</option>
+                        }
+                        else
+                        {
+                            <option value="Pending">Pending</option>
+                        }
+
+                        @if (Model.Status == "Failed")
+                        {
+                            <option value="Failed" selected>Failed</option>
+                        }
+                        else
+                        {
+                            <option value="Failed">Failed</option>
+                        }
+
+                    </select>
+
+                </div>
+
+                <!-- From Date -->
+                <div class="col-md-2">
+
+                    <label class="form-label fw-bold text-dark" style="font-size: 13px;">
+                        From Date
+                    </label>
+
+                    <input type="date"
+                           name="fromDate"
+                           class="form-control"
+                           value="@(Model.FromDate?.ToString("yyyy-MM-dd"))" />
+
+                </div>
+
+                <!-- To Date -->
+                <div class="col-md-2">
+
+                    <label class="form-label fw-bold text-dark" style="font-size: 13px;">
+                        To Date
+                    </label>
+
+                    <input type="date"
+                           name="toDate"
+                           class="form-control"
+                           value="@(Model.ToDate?.ToString("yyyy-MM-dd"))" />
+
+                </div>
+
+                <!-- Apply Button -->
+                <div class="col-md-2 d-flex align-items-end">
+
+                    <button type="submit"
+                            class="btn-primary w-100">
+
+                        <i class="bi bi-search me-1"></i> Apply
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <!-- Transactions Table -->
+    <div class="section-card">
+
+        <div class="p-4 border-bottom">
+
+            <h5 class="fw-bold mb-1 text-dark fs-6">
+                Executed Transactions
+            </h5>
+
+            <small class="text-muted">
+                Detailed audit history of account transactions.
+            </small>
+
+        </div>
+
+        @if (Model.Transactions.Any())
+        {
+            <div class="table-responsive">
+
+                <table class="table align-middle mb-0">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Txn ID</th>
+                            <th>From Account</th>
+                            <th>To Account</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th></th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var transaction in Model.Transactions)
+                        {
+                            var statusClass = transaction.Status?.ToLowerInvariant() switch
+                            {
+                                "success" => "badge-success",
+                                "approved" => "badge-approved",
+                                "pending" => "badge-pending",
+                                _ => "badge-rejected"
+                            };
+
+                            <tr>
+
+                                <td class="fw-bold text-primary">
+                                    #@transaction.TransactionId
+                                </td>
+
+                                <td class="fw-semibold">
+                                    @transaction.FromBankAccount?.AccountNumber
+                                </td>
+
+                                <td class="fw-semibold">
+                                    @transaction.ToAccountNumber
+                                </td>
+
+                                <td>
+                                    <span class="badge bg-light text-dark border px-2 py-1">
+                                        @transaction.TransactionType
+                                    </span>
+                                </td>
+
+                                <td class="fw-bold fs-6">
+                                    ₹@transaction.Amount.ToString("N2")
+                                </td>
+
+                                <td>
+
+                                    <div class="fw-semibold text-dark">
+                                        @transaction.TransactionDate.ToString("dd MMM yyyy")
+                                    </div>
+
+                                    <small class="text-muted" style="font-size: 11px;">
+                                        @transaction.TransactionDate.ToString("hh:mm tt")
+                                    </small>
+
+                                </td>
+
+                                <td>
+                                    <span class="badge-status @statusClass">
+                                        @transaction.Status
+                                    </span>
+                                </td>
+
+                                <td>
+
+                                    <a asp-action="Details"
+                                       asp-route-id="@transaction.TransactionId"
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i> Details
+                                    </a>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+
+                <div class="stat-icon-badge mx-auto mb-3" style="width: 56px; height: 56px; font-size: 24px;">
+                    <i class="bi bi-receipt"></i>
+                </div>
+
+                <h5 class="fw-bold text-dark mb-1">
+                    No transactions found
+                </h5>
+
+                <p class="text-muted mb-3" style="font-size: 13px;">
+                    There are no transactions matching your filters.
+                </p>
+
+                <a asp-action="Index"
+                   class="btn btn-outline-primary">
+                    Clear Filters
+                </a>
+
+            </div>
+        }
+
+    </div>
+
+</div>

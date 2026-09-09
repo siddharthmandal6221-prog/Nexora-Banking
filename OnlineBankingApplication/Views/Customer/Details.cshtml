@@ -1,0 +1,63 @@
+﻿@model OnlineBankingApplication.DTOs.CustomerDto
+
+@{
+    ViewData["Title"] = "Customer Details";
+}
+
+<h1>Customer Details</h1>
+
+<div class="card">
+    <div class="card-body">
+
+        <dl class="row">
+
+            <dt class="col-sm-3">
+                Customer ID
+            </dt>
+            <dd class="col-sm-9">
+                @Model.CustomerId
+            </dd>
+
+            <dt class="col-sm-3">
+                Full Name
+            </dt>
+            <dd class="col-sm-9">
+                @Model.FullName
+            </dd>
+
+            <dt class="col-sm-3">
+                Email
+            </dt>
+            <dd class="col-sm-9">
+                @Model.Email
+            </dd>
+
+            <dt class="col-sm-3">
+                Phone Number
+            </dt>
+            <dd class="col-sm-9">
+                @Model.PhoneNumber
+            </dd>
+
+            <dt class="col-sm-3">
+                Address
+            </dt>
+            <dd class="col-sm-9">
+                @Model.Address
+            </dd>
+
+            <dt class="col-sm-3">
+                Created Date
+            </dt>
+            <dd class="col-sm-9">
+                @Model.CreatedDate.ToString("dd MMM yyyy hh:mm tt")
+            </dd>
+
+        </dl>
+
+        <a asp-action="Index" class="btn btn-secondary">
+            Back to List
+        </a>
+
+    </div>
+</div>

@@ -1,0 +1,74 @@
+@model IEnumerable<OnlineBankingApplication.Models.AuditLog>
+
+@{
+    ViewData["Title"] = "Audit Logs";
+}
+
+<div class="page-header">
+    <div>
+        <h1>
+            <i class="bi bi-shield-shaded me-2 text-cyan"></i>Audit Logs
+        </h1>
+        <p>Review system security events and administrative actions in Nexora Portal.</p>
+    </div>
+</div>
+
+<div class="dashboard-card p-0 overflow-hidden">
+    <div class="p-4 border-bottom d-flex justify-content-between align-items-center bg-light">
+        <h5 class="fw-bold text-dark mb-0">
+            <i class="bi bi-journal-text me-2 text-primary"></i>System Audit Trail
+        </h5>
+        <span class="badge bg-primary px-3 py-2 rounded-pill">
+            @Model.Count() Log Records
+        </span>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <div class="stat-icon-wrapper mx-auto mb-3 bg-light text-secondary" style="width:60px; height:60px;">
+                <i class="bi bi-journal-x fs-2"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-1">No audit logs found</h5>
+            <p class="text-muted small">System activity logs will appear here as transactions and changes occur.</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">Log ID</th>
+                        <th>User ID</th>
+                        <th>Action</th>
+                        <th>Description</th>
+                        <th class="pe-4 text-end">Date & Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var log in Model)
+                    {
+                        <tr>
+                            <td class="ps-4">
+                                <span class="badge bg-secondary">#@log.AuditLogId</span>
+                            </td>
+                            <td>
+                                <small class="text-muted font-monospace">@log.UserId</small>
+                            </td>
+                            <td>
+                                <span class="fw-semibold text-dark">@log.Action</span>
+                            </td>
+                            <td>
+                                <span class="text-secondary small">@log.Description</span>
+                            </td>
+                            <td class="pe-4 text-end">
+                                <span class="text-dark small">@log.CreatedDate.ToString("dd MMM yyyy, hh:mm tt")</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
