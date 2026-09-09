@@ -34,7 +34,7 @@ public partial class Program
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(
                 builder.Configuration.GetConnectionString(
-                    "DefaultConnection")));
+                    "Azurecon")));
 
         // ============================================================
         // ASP.NET Core Identity
