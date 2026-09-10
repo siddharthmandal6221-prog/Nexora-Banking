@@ -31,20 +31,26 @@ public partial class Program
         // Database
         // ============================================================
 
-        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-            ?? builder.Configuration.GetConnectionString("Azurecon");
+        var connectionString =
+    builder.Configuration.GetConnectionString("Azurecon")
+    ?? builder.Configuration.GetConnectionString("DefaultConnection");
+
+        if (string.IsNullOrWhiteSpace(connectionString))
+        {
+            throw new InvalidOperationException(
+                "No database connection string was configured.");
+        }
 
         builder.Services.AddDbContext<ApplicationDbContext>(
-                   options => options.UseSqlServer(
-                   connectionString,
-                   sqlOptions =>
-                   {
-                       sqlOptions.EnableRetryOnFailure(
-                          maxRetryCount: 5,
-                          maxRetryDelay: TimeSpan.FromSeconds(10),
-                          errorNumbersToAdd: null);
-                   }));
-
+            options => options.UseSqlServer(
+                connectionString,
+                sqlOptions =>
+                {
+                    sqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 5,
+                        maxRetryDelay: TimeSpan.FromSeconds(10),
+                        errorNumbersToAdd: null);
+                }));
         // ============================================================
         // ASP.NET Core Identity
         // ============================================================
