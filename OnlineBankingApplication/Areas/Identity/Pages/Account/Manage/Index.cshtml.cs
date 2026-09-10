@@ -57,6 +57,8 @@ public class IndexModel : PageModel
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [Phone]
+        [RegularExpression(@"^[0-9]{10}$", ErrorMessage = "Phone number must be exactly 10 digits.")]
+        [StringLength(10, MinimumLength = 10, ErrorMessage = "Phone number must be exactly 10 digits.")]
         [Display(Name = "Phone number")]
         public string? PhoneNumber { get; set; }
     }

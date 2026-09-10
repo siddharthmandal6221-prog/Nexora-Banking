@@ -52,7 +52,7 @@
                             <label asp-for="Input.FullName">Full Name</label>
                             <div class="input-icon-wrapper">
                                 <i class="bi bi-person field-icon"></i>
-                                <input asp-for="Input.FullName" autocomplete="name" placeholder="John Doe" required />
+                                <input asp-for="Input.FullName" autocomplete="name" placeholder="John Doe" maxlength="100" required />
                             </div>
                             <span asp-validation-for="Input.FullName" class="text-danger small"></span>
                         </div>
@@ -64,7 +64,7 @@
                             <label asp-for="Input.PhoneNumber">Phone Number</label>
                             <div class="input-icon-wrapper">
                                 <i class="bi bi-telephone field-icon"></i>
-                                <input asp-for="Input.PhoneNumber" autocomplete="tel" placeholder="+91 9876543210" required />
+                                <input asp-for="Input.PhoneNumber" autocomplete="tel" placeholder="9876543210" maxlength="10" required />
                             </div>
                             <span asp-validation-for="Input.PhoneNumber" class="text-danger small"></span>
                         </div>
@@ -88,7 +88,7 @@
                             <label asp-for="Input.Address">Address</label>
                             <div class="input-icon-wrapper">
                                 <i class="bi bi-geo-alt field-icon"></i>
-                                <input asp-for="Input.Address" placeholder="Street, City, Zip Code" required />
+                                <input asp-for="Input.Address" placeholder="Street, City, Zip Code" maxlength="200" required />
                             </div>
                             <span asp-validation-for="Input.Address" class="text-danger small"></span>
                         </div>
@@ -144,6 +144,7 @@
         </div>
     </div>
 
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <partial name="_ValidationScriptsPartial" />
 </body>
 </html>

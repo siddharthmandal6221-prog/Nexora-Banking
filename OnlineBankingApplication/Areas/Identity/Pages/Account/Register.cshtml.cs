@@ -60,29 +60,36 @@ public class RegisterModel : PageModel
 
     public class InputModel
     {
-        [Required]
-        [StringLength(100)]
+        [Required(ErrorMessage = "Full Name is required.")]
+        [StringLength(100, MinimumLength = 2, ErrorMessage = "Full Name must be between 2 and 100 characters.")]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Full Name can only contain letters and spaces.")]
         [Display(Name = "Full Name")]
         public string FullName { get; set; } = default!;
 
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Email is required.")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Please enter a valid email address.")]
         [Display(Name = "Email")]
         public string Email { get; set; } = default!;
 
-        [Phone]
+        [Required(ErrorMessage = "Phone number is required.")]
+        [RegularExpression(@"^[0-9]{10}$", ErrorMessage = "Phone number must be exactly 10 digits.")]
+        [StringLength(10, MinimumLength = 10, ErrorMessage = "Phone number must be exactly 10 digits.")]
         [Display(Name = "Phone Number")]
-        public string? PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } = default!;
 
+        [Required(ErrorMessage = "Address is required.")]
+        [StringLength(200, MinimumLength = 3, ErrorMessage = "Address must be between 3 and 200 characters.")]
         [Display(Name = "Address")]
-        public string? Address { get; set; }
+        public string Address { get; set; } = default!;
 
-        [Required]
+        [Required(ErrorMessage = "Password is required.")]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; } = default!;
 
+        [Required(ErrorMessage = "Please confirm your password.")]
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
@@ -124,6 +131,7 @@ public class RegisterModel : PageModel
 
             // New customers must wait for Admin approval
             user.FullName = Input.FullName;
+            user.PhoneNumber = Input.PhoneNumber;
             user.IsApproved = false;
 
             var result = await _userManager

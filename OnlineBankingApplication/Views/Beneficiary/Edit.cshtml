@@ -1,4 +1,4 @@
-﻿@model OnlineBankingApplication.DTOs.BeneficiaryDto
+@model OnlineBankingApplication.DTOs.BeneficiaryDto
 
 @{
     ViewData["Title"] = "Edit Beneficiary";
@@ -24,7 +24,8 @@
         <label asp-for="BeneficiaryName"></label>
 
         <input asp-for="BeneficiaryName"
-               class="form-control" />
+               class="form-control"
+               maxlength="100" />
 
         <span asp-validation-for="BeneficiaryName"
               class="text-danger">
@@ -37,7 +38,8 @@
         <label asp-for="AccountNumber"></label>
 
         <input asp-for="AccountNumber"
-               class="form-control" />
+               class="form-control"
+               maxlength="20" />
 
         <span asp-validation-for="AccountNumber"
               class="text-danger">

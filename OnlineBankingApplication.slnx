@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="OnlineBankingApplication/OnlineBankingApplication.csproj" />
+  <Project Path="OnlineBankingApplication.Tests/OnlineBankingApplication.Tests.csproj" />
 </Solution>

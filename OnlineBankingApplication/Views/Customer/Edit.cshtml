@@ -31,7 +31,7 @@
         <div class="row g-3">
             <div class="col-md-6">
                 <label asp-for="FullName" class="form-label fw-semibold text-secondary small text-uppercase"></label>
-                <input asp-for="FullName" class="form-control" />
+                <input asp-for="FullName" class="form-control" maxlength="100" />
                 <span asp-validation-for="FullName" class="text-danger small"></span>
             </div>
 
@@ -43,13 +43,13 @@
 
             <div class="col-md-6">
                 <label asp-for="PhoneNumber" class="form-label fw-semibold text-secondary small text-uppercase"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
+                <input asp-for="PhoneNumber" class="form-control" placeholder="Enter 10-digit phone number" maxlength="10" />
                 <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
             </div>
 
             <div class="col-md-6">
                 <label asp-for="Address" class="form-label fw-semibold text-secondary small text-uppercase"></label>
-                <input asp-for="Address" class="form-control" />
+                <input asp-for="Address" class="form-control" maxlength="200" />
                 <span asp-validation-for="Address" class="text-danger small"></span>
             </div>
         </div>

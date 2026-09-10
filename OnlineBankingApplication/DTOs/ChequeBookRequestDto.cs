@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace OnlineBankingApplication.DTOs
 {
@@ -6,11 +6,11 @@ namespace OnlineBankingApplication.DTOs
     {
         public int ChequeBookRequestId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Bank account is required.")]
         public int BankAccountId { get; set; }
 
-        [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "Number of leaves must be greater than zero.")]
+        [Required(ErrorMessage = "Number of leaves is required.")]
+        [Range(1, 100, ErrorMessage = "Number of leaves must be between 1 and 100.")]
         public int NumberOfLeaves { get; set; }
 
         public DateTime RequestDate { get; set; }

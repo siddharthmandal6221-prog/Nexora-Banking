@@ -49,11 +49,11 @@ public class LoginModel : PageModel
 
     public class InputModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Email address is required.")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
         public string Email { get; set; } = default!;
 
-        [Required]
+        [Required(ErrorMessage = "Password is required.")]
         [DataType(DataType.Password)]
         public string Password { get; set; } = default!;
 

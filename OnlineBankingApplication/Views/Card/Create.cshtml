@@ -1,4 +1,4 @@
-﻿@model OnlineBankingApplication.DTOs.CardDto
+@model OnlineBankingApplication.DTOs.CardDto
 @{
     ViewData["Title"] = "Create Card";
 }
@@ -117,7 +117,8 @@
 
                         <input asp-for="CardHolderName"
                                class="form-control"
-                               placeholder="Card holder name" />
+                               placeholder="Card holder name"
+                               maxlength="100" />
 
                         <span asp-validation-for="CardHolderName"
                               class="text-danger">

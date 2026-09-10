@@ -31,10 +31,19 @@ public partial class Program
         // Database
         // ============================================================
 
-        builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(
-                builder.Configuration.GetConnectionString(
-                    "Azurecon")));
+        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+            ?? builder.Configuration.GetConnectionString("Azurecon");
+
+        builder.Services.AddDbContext<ApplicationDbContext>(
+                   options => options.UseSqlServer(
+                   connectionString,
+                   sqlOptions =>
+                   {
+                       sqlOptions.EnableRetryOnFailure(
+                          maxRetryCount: 5,
+                          maxRetryDelay: TimeSpan.FromSeconds(10),
+                          errorNumbersToAdd: null);
+                   }));
 
         // ============================================================
         // ASP.NET Core Identity

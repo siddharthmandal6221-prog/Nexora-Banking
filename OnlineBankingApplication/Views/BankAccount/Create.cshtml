@@ -1,4 +1,4 @@
-﻿@model OnlineBankingApplication.DTOs.BankAccountDto
+@model OnlineBankingApplication.DTOs.BankAccountDto
 @{
     ViewData["Title"] = "Create Bank Account";
 }
@@ -424,6 +424,7 @@
                             <input asp-for="AccountNumber"
                                    class="form-control custom-control"
                                    placeholder="Enter account number"
+                                   maxlength="20"
                                    autocomplete="off" />
 
                             <span asp-validation-for="AccountNumber"
